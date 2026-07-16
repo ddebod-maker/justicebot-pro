@@ -3,41 +3,31 @@ import time
 from datetime import datetime
 
 # ============================================================
-# PROJECT: JUSTICE BOT AI (Global Executive v1.25)
+# PROJECT: JUSTICE BOT AI (Global Executive v1.28)
 # PRODUCED BY: Trend Shadows Digital Agency
-# STATUS: ULTIMATE VISIBILITY REPAIR | 10 DOMAINS | 7 JURISDICTIONS
+# STATUS: 10-DOMAIN ENGINE | BODY FIX | VOUCHER ACTIVE
 # ============================================================
 
 st.set_page_config(page_title="JusticeBot Pro | Global Elite", layout="wide")
 
 # --- VERSION STAMP ---
-st.sidebar.markdown("`SYSTEM VERSION: v1.25`")
+st.sidebar.markdown("`SYSTEM VERSION: v1.28` (MASTER)")
 st.sidebar.markdown("---")
 
-# --- ULTIMATE CSS VISIBILITY OVERHAUL (v1.25) ---
+# --- ULTIMATE CSS VISIBILITY OVERHAUL (v1.28) ---
 st.markdown("""
     <style>
     .stApp { background-color: #000000 !important; }
     
-    /* 1. SELECTION BOX VISIBILITY - FORCED HIGH CONTRAST */
-    /* Target the container */
+    /* 1. DROPDOWN VISIBILITY FIX */
     div[data-testid="stSelectbox"] > div {
         background-color: #C0C0C0 !important;
-        border: 2px solid #FFFFFF !important;
-        border-radius: 4px !important;
-    }
-    
-    /* Target the text inside the closed box */
-    div[data-testid="stSelectbox"] [data-baseweb="select"] div {
         color: #000000 !important;
-        font-weight: 800 !important;
-        font-size: 1.1rem !important;
+        border-radius: 4px !important;
+        border: 2px solid #FFFFFF !important;
     }
-    
-    /* Target the arrow */
-    div[data-testid="stSelectbox"] svg {
-        fill: #000000 !important;
-    }
+    div[data-testid="stSelectbox"] p { color: #000000 !important; font-weight: 800 !important; }
+    div[data-testid="stSelectbox"] svg { fill: #000000 !important; }
 
     /* 2. LABELS & HEADINGS */
     h1 { color: #FFFFFF !important; font-family: 'serif'; font-weight: 900 !important; font-size: 3.5rem !important; text-align: center; }
@@ -51,7 +41,7 @@ st.markdown("""
         font-size: 16px !important;
     }
 
-    /* 4. BUTTONS: Industrial Silver */
+    /* 4. BUTTONS: Industrial Silver with Black Text */
     button, .stButton>button, .stDownloadButton>button {
         background-color: #C0C0C0 !important;
         color: #000000 !important;
@@ -59,7 +49,9 @@ st.markdown("""
         text-transform: uppercase !important;
         border: 2px solid #FFFFFF !important;
         height: 3.5em !important;
+        width: 100% !important;
     }
+    button:hover { background-color: #FFFFFF !important; box-shadow: 0 0 20px rgba(255, 255, 255, 0.5) !important; }
 
     /* 5. THE PRO LEGAL DOCUMENT (Premium Bond Stationery) */
     .legal-paper {
@@ -81,7 +73,7 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-# --- THE 10-DOMAIN GLOBAL ENGINE (7 COUNTRIES) ---
+# --- THE 10-DOMAIN GLOBAL ENGINE ---
 STATUTES = {
     "United States (US)": {
         "Security Deposit Recovery": "US Civil Code Section 1950.5",
@@ -165,7 +157,7 @@ STATUTES = {
         "Employment/Unpaid Wages": "Payment of Wages Act 1936",
         "Insurance Claim Dispute": "IRDAI Guidelines",
         "Property Damage Claim": "Tort of Negligence",
-        "General Cease & Desist": "Defamation Laws & IT Act 2000"
+        "General Cease & Desist": "IT Act 2000 / Defamation Laws"
     }
 }
 
@@ -184,18 +176,17 @@ if not st.session_state.paid:
         st.markdown("### 🏛️ Case Intelligence")
         c1, c2 = st.columns(2)
         with c1:
-            cl_name = st.text_input("Claimant Full Name (You)", key="cl_name_125")
-            juris = st.selectbox("Select Jurisdiction", list(STATUTES.keys()), key="juris_125")
+            cl_name = st.text_input("Claimant Full Name (You)", key="cl_name_v28")
+            juris = st.selectbox("Select Jurisdiction", list(STATUTES.keys()), key="juris_v28")
         with c2:
-            res_name = st.text_input("Respondent Name (Company or Person)", key="res_name_125")
-            curr = st.selectbox("Select Currency", CURRENCIES, key="curr_125")
+            res_name = st.text_input("Respondent Name (Company or Person)", key="res_name_v28")
+            curr = st.selectbox("Select Currency", CURRENCIES, key="curr_v28")
             
-        st.divider()
-        category = st.selectbox("Select Case Category", list(STATUTES[juris].keys()), key="cat_125")
-        amount = st.text_input(f"Total Amount Owed ({curr.split(' ')[1]})", key="amt_125")
-        details = st.text_area("Dispute Narrative (Be thorough with dates and facts)", height=150, key="det_125")
+        category = st.selectbox("Select Case Category", list(STATUTES[juris].keys()), key="cat_v28")
+        amount = st.text_input(f"Total Amount Owed ({curr.split(' ')[1]})", key="amt_v28")
+        details = st.text_area("Dispute Narrative (Names, Dates, Facts)", height=150, key="det_v28")
         
-        if st.button("PROCESS OFFICIAL LEGAL DEMAND", key="proc_125"):
+        if st.button("PROCESS OFFICIAL LEGAL DEMAND", key="proc_v28"):
             if cl_name and res_name and details:
                 st.session_state.cl_name, st.session_state.res_name = cl_name, res_name
                 st.session_state.amount, st.session_state.details = amount, details
@@ -207,27 +198,30 @@ if not st.session_state.paid:
     if st.session_state.ready:
         st.divider()
         st.markdown(f"**SUBJECT: FINAL NOTICE OF INTENT TO LITIGATE - {st.session_state.category.upper()}**")
-        st.markdown("""<div style="filter:blur(10px); background:#111; padding:20px; border:1px dashed #C0C0C0;">Notice is hereby given that your actions constitute a direct violation...</div>""", unsafe_allow_html=True)
+        st.markdown("""<div style="filter:blur(12px); background:#111; padding:20px; border:1px dashed #C0C0C0;">Notice is hereby given that your actions constitute a direct violation...</div>""", unsafe_allow_html=True)
         
         st.markdown("---")
         st.markdown("### 💎 Unlock Full Document")
-        v_code = st.text_input("Enter Voucher Code (Admin Only)", type="password", key="vouch_125")
+        # Voucher Code system added back and simplified
+        v_code = st.text_input("Enter Voucher Code (Admin Only)", type="password", key="vouch_v28")
         
-        if st.button("AUTHENTICATE & UNLOCK PACKAGE", key="auth_125"):
+        if st.button("AUTHENTICATE & UNLOCK PACKAGE", key="auth_v28"):
             if v_code == "TS-GIFT-2026":
-                st.session_state.paid = True
-                st.rerun()
+                st.session_state.paid = True; st.rerun()
             else:
                 checkout_url = "https://trend-shadows.lemonsqueezy.com/buy/1914602"
                 st.markdown(f'<meta http-equiv="refresh" content="0; url={checkout_url}">', unsafe_allow_html=True)
 
 else:
-    # --- FINAL PRODUCTION OUTPUT ---
+    # --- FINAL PRODUCTION OUTPUT (RE-ENGINEERED BODY) ---
     st.success("AUTHENTICATION SUCCESSFUL. DOCUMENT UNLOCKED.")
     law = STATUTES[st.session_state.juris].get(st.session_state.category)
     date_now = datetime.now().strftime("%B %d, %Y")
     
-    body = f"""Notice is hereby given that your failure to remit the balance of {st.session_state.curr_sym}{st.session_state.amount} regarding the {st.session_state.category.lower()} constitutes a direct violation of {law}.\n\nUnder the laws of {st.session_state.juris}, specifically regarding {st.session_state.category.lower()}, the withholding of these funds is a breach of legal obligations.\n\nLEGAL DEMAND: Demand is hereby made for the immediate payment of the full balance. This must be received in full within 14 calendar days of the date of this notice.\n\nNOTICE OF INTENT TO SUE: Failure to comply with this final demand will result in the immediate commencement of legal proceedings in Small Claims Court without further notice."""
+    # HARDCODED JARGON + NARRATIVE + DEMAND
+    jargon = f"Notice is hereby given that your failure to remit the balance of {st.session_state.curr_sym}{st.session_state.amount} regarding the {st.session_state.category.lower()} constitutes a direct violation of {law}."
+    legal_arguments = f"Under the laws of {st.session_state.juris}, specifically regarding {st.session_state.category.lower()}, the withholding of these funds is a breach of legal obligations."
+    demand_terms = f"LEGAL DEMAND:\nDemand is hereby made for the immediate payment of the full balance. This must be received in full within 14 calendar days of the date of this notice.\n\nINTENT TO LITIGATE:\nFailure to comply with this final demand will result in the immediate commencement of legal proceedings in Small Claims Court without further notice."
 
     st.markdown(f"""
         <div class="legal-paper">
@@ -235,21 +229,21 @@ else:
                 <div><b>FROM:</b><br>{st.session_state.cl_name}</div>
                 <div style="text-align:right;"><b>DATE:</b><br>{date_now}</div>
             </div>
-            <br>
-            <div style="color:#000;"><b>TO:</b><br>{st.session_state.res_name}</div>
-            <br><br>
-            <div style="text-align:center; text-decoration:underline; font-size: 24px; color:#000;"><b>FORMAL LETTER OF DEMAND</b></div>
-            <br>
-            <p style="color:#000; white-space: pre-wrap;">{body}</p>
-            <br><p style="color:#000;">Sincerely,</p>
-            <div class="sig-block" style="border-top: 2px solid #000;"></div>
+            <br><div style="color:#000;"><b>TO:</b><br>{st.session_state.res_name}</div><br><br>
+            <div style="text-align:center; text-decoration:underline; font-size: 22px; color:#000;"><b>FORMAL LETTER OF DEMAND</b></div><br>
+            <p style="color:#000;">{jargon}</p>
+            <p style="color:#000;"><b>STATEMENT OF FACTS:</b><br>{st.session_state.details}</p>
+            <p style="color:#000;">{legal_arguments}</p>
+            <p style="color:#000; font-weight:bold; border: 1px solid #000; padding: 15px;">{demand_terms}</p><br>
+            <p style="color:#000;">Sincerely,</p><div class="sig-line" style="border-top: 2px solid #000;"></div>
             <p style="color:#000;"><b>{st.session_state.cl_name}</b><br>Claimant</p>
         </div>
     """, unsafe_allow_html=True)
     
-    st.download_button("DOWNLOAD OFFICIAL WORD DOCUMENT", body, file_name="Legal_Demand.doc", key="dl_125")
-    if st.button("INITIATE NEW CASE", key="new_125"):
+    download_text = f"FROM: {st.session_state.cl_name}\nDATE: {date_now}\nTO: {st.session_state.res_name}\n\nRE: FORMAL LETTER OF DEMAND\n\n{jargon}\n\nSTATEMENT OF FACTS:\n{st.session_state.details}\n\n{legal_arguments}\n\n{demand_terms}\n\nSincerely,\n{st.session_state.cl_name}"
+    st.download_button("DOWNLOAD OFFICIAL WORD DOCUMENT", download_text, file_name="Legal_Demand.doc", key="dl_v28")
+    if st.button("INITIATE NEW CASE", key="new_v28"):
         st.session_state.paid = False; st.session_state.ready = False; st.rerun()
 
 st.divider()
-st.caption("Shadow-Build Global Engine v1.25 | Trend Shadows Digital Agency")
+st.caption("Shadow-Build Global Engine v1.28 | Trend Shadows Digital Agency")
