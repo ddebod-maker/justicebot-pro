@@ -3,72 +3,78 @@ import time
 from datetime import datetime
 
 # ============================================================
-# PROJECT: JUSTICE BOT AI (Global Executive v1.22)
+# PROJECT: JUSTICE BOT AI (Global Executive v1.23)
 # PRODUCED BY: Trend Shadows Digital Agency
-# STATUS: 10-DOMAIN ENGINE | INDESTRUCTIBLE BUILD
+# STATUS: 7 JURISDICTIONS | 10 DOMAINS | VOUCHER SYSTEM ACTIVE
 # ============================================================
 
 st.set_page_config(page_title="JusticeBot Pro | Global Elite", layout="wide")
-st.sidebar.markdown("`SYSTEM VERSION: v1.22`")
 
-# --- MASTER CSS (Visibility & High-End Legal Stationery) ---
+# --- SYSTEM VERSION & VOUCHER (Sidebar) ---
+st.sidebar.markdown("`SYSTEM VERSION: v1.23`")
+st.sidebar.markdown("---")
+st.sidebar.markdown("### 🔑 Access Control")
+voucher_input = st.sidebar.text_input("Enter Voucher / Admin Code", type="password", help="Enter a promotional code to unlock full document access.")
+
+# --- MASTER CSS (Visibility, Industrial Silver, and High-Court Stationery) ---
 st.markdown("""
     <style>
     .stApp { background-color: #000000 !important; }
     h1 { color: #FFFFFF !important; font-family: 'serif'; font-weight: 900 !important; font-size: 3.5rem !important; text-align: center; }
     
-    /* DROPDOWN VISIBILITY */
+    /* 1. SELECTION BOX VISIBILITY FIX */
     div[data-testid="stSelectbox"] > div {
         background-color: #C0C0C0 !important; color: #000000 !important;
         border-radius: 4px !important; border: 2px solid #FFFFFF !important;
     }
     div[data-testid="stSelectbox"] p { color: #000000 !important; font-weight: 900 !important; }
+    div[data-testid="stSelectbox"] svg { fill: #000000 !important; }
 
-    /* LABELS & INPUTS */
+    /* 2. LABELS & INPUTS */
     label, .stMarkdown p { color: #FFFFFF !important; font-weight: 700 !important; font-size: 1.1rem !important; }
     .stTextArea textarea, .stTextInput input {
         background-color: #111111 !important; color: #FFFFFF !important; border: 1px solid #C0C0C0 !important;
     }
 
-    /* BUTTONS */
+    /* 3. BUTTONS: Solid Industrial Silver */
     button, .stButton>button, .stDownloadButton>button {
         background-color: #C0C0C0 !important; color: #000000 !important;
         font-weight: 900 !important; text-transform: uppercase !important; border: 2px solid #FFFFFF !important;
-        height: 3.5em !important;
+        height: 3.5em !important; width: 100% !important;
     }
 
-    /* THE LEGAL DOCUMENT (Official Bond Stationery) */
+    /* 4. THE PRO LEGAL DOCUMENT (Premium Bond Stationery) */
     .legal-paper {
         background-color: #FFFFFF !important; color: #000000 !important;
-        padding: 70px 100px !important; font-family: 'Times New Roman', serif !important;
-        line-height: 1.6 !important; border: 15px double #000000 !important; /* Industrial Border */
-        margin: 40px auto !important; max-width: 850px !important; text-align: left !important;
-        box-shadow: 0 0 50px rgba(255, 255, 255, 0.1) !important;
+        padding: 80px 100px !important; font-family: 'Times New Roman', serif !important;
+        line-height: 1.6 !important; border: 12px double #000000 !important;
+        margin: 50px auto !important; max-width: 900px !important; text-align: left !important;
+        box-shadow: 0 0 60px rgba(255, 255, 255, 0.1) !important;
     }
     .legal-paper * { color: #000000 !important; }
-    .sig-line { margin-top: 50px; border-top: 2px solid #000; width: 250px; }
+    .sig-block { margin-top: 60px; border-top: 2px solid #000; width: 300px; padding-top: 10px; }
 
-    .ts-logo { font-size: 32px; font-weight: 900; letter-spacing: 10px; color: #FFFFFF; text-align: right; }
+    .ts-logo { font-size: 32px; font-weight: 900; letter-spacing: 10px; color: #FFFFFF; text-align: right; margin-bottom: 20px; }
     </style>
     """, unsafe_allow_html=True)
 
-# --- 10-DOMAIN GLOBAL ENGINE ---
+# --- THE 10-DOMAIN GLOBAL ENGINE (7 COUNTRIES INCLUDING INDIA) ---
 STATUTES = {
     "United States (US)": {
         "Security Deposit Recovery": "US Civil Code Section 1950.5",
         "Unpaid Freelance Invoice": "UCC Article 2 / Breach of Contract",
-        "Private Vehicle Sale": "State Bill of Sale Statutes",
+        "Private Vehicle Sale": "State Bill of Sale & Lemon Laws",
         "Electronics/Goods Sale": "Magnuson-Moss Warranty Act",
         "Travel/Flight Refund": "US DOT Refund Mandates",
         "Service Cancellation": "State Consumer Statutes",
-        "Employment/Unpaid Wages": "FLSA Regulations",
+        "Employment/Unpaid Wages": "Fair Labor Standards Act (FLSA)",
         "Insurance Claim Dispute": "Insurance Fair Conduct Act",
         "Property Damage Claim": "General Tort Law",
-        "General Cease & Desist": "Common Law Harassment Codes"
+        "General Cease & Desist": "Common Law Defamation/Harassment"
     },
     "United Kingdom (UK)": {
         "Security Deposit Recovery": "Housing Act 2004",
-        "Unpaid Freelance Invoice": "Late Payment Act 1998",
+        "Unpaid Freelance Invoice": "Late Payment of Commercial Debts Act 1998",
         "Private Vehicle Sale": "Sale of Goods Act 1979",
         "Electronics/Goods Sale": "Consumer Rights Act 2015",
         "Travel/Flight Refund": "UK261 Regulations",
@@ -76,12 +82,12 @@ STATUTES = {
         "Employment/Unpaid Wages": "Employment Rights Act 1996",
         "Insurance Claim Dispute": "FOS Guidelines",
         "Property Damage Claim": "Occupiers' Liability Act",
-        "General Cease & Desist": "Protection from Harassment Act"
+        "General Cease & Desist": "Protection from Harassment Act 1997"
     },
     "South Africa (ZA)": {
         "Security Deposit Recovery": "Rental Housing Act 50 of 1999",
         "Unpaid Freelance Invoice": "Prescribed Rate of Interest Act 55 of 1975",
-        "Private Vehicle Sale": "Private Sale Agreement (Voetstoots)",
+        "Private Vehicle Sale": "Private Sale Agreement (Voetstoots Protocol)",
         "Electronics/Goods Sale": "Consumer Protection Act Section 55",
         "Travel/Flight Refund": "Consumer Protection Act Section 47",
         "Service Cancellation": "Consumer Protection Act Section 14",
@@ -92,7 +98,7 @@ STATUTES = {
     },
     "Australia (AU)": {
         "Security Deposit Recovery": "Residential Tenancies Act 2010",
-        "Unpaid Freelance Invoice": "ACL Payment Terms",
+        "Unpaid Freelance Invoice": "Australian Consumer Law (ACL)",
         "Private Vehicle Sale": "State Motor Vehicle Traders Act",
         "Electronics/Goods Sale": "ACL Consumer Guarantees",
         "Travel/Flight Refund": "ACL Major Failure Protocols",
@@ -113,6 +119,30 @@ STATUTES = {
         "Insurance Claim Dispute": "Provincial Insurance Acts",
         "Property Damage Claim": "Negligence Act",
         "General Cease & Desist": "Libel and Slander Act"
+    },
+    "New Zealand (NZ)": {
+        "Security Deposit Recovery": "Residential Tenancies Act 1986",
+        "Unpaid Freelance Invoice": "Consumer Guarantees Act 1993",
+        "Private Vehicle Sale": "Fair Trading Act 1986",
+        "Electronics/Goods Sale": "CGA Section 6",
+        "Travel/Flight Refund": "Contract and Commercial Law Act 2017",
+        "Service Cancellation": "CGA Reasonable Care",
+        "Employment/Unpaid Wages": "Employment Relations Act 2000",
+        "Insurance Claim Dispute": "Insurance Law Reform Act",
+        "Property Damage Claim": "Limitation Act 2010",
+        "General Cease & Desist": "Harassment Act 1997"
+    },
+    "India (IN)": {
+        "Security Deposit Recovery": "Model Tenancy Act 2021",
+        "Unpaid Freelance Invoice": "Indian Contract Act 1872",
+        "Private Vehicle Sale": "Motor Vehicles Act 1988",
+        "Electronics/Goods Sale": "Consumer Protection Act 2019",
+        "Travel/Flight Refund": "DGCA Passenger Charter",
+        "Service Cancellation": "CPA Unfair Contracts",
+        "Employment/Unpaid Wages": "Payment of Wages Act 1936",
+        "Insurance Claim Dispute": "IRDAI Guidelines",
+        "Property Damage Claim": "Tort of Negligence",
+        "General Cease & Desist": "Defamation Laws & IT Act 2000"
     }
 }
 
@@ -121,28 +151,35 @@ CURRENCIES = ["USD ($)", "GBP (£)", "ZAR (R)", "AUD ($)", "NZD ($)", "CAD ($)",
 if 'paid' not in st.session_state: st.session_state.paid = False
 if 'ready' not in st.session_state: st.session_state.ready = False
 
+# --- BRANDING ---
 st.markdown('<div class="ts-logo">TS</div>', unsafe_allow_html=True)
 st.title("JusticeBot Pro Global")
+st.markdown("<p style='text-align:center; color:#888; letter-spacing:5px;'>ELITE LEGAL RECOVERY TERMINAL</p>", unsafe_allow_html=True)
 st.divider()
 
-if not st.session_state.paid:
+# --- VOUCHER CHECK ---
+ADMIN_CODE = "TS-GIFT-2026"
+is_admin = (voucher_input == ADMIN_CODE)
+
+if not st.session_state.paid and not is_admin:
     with st.container():
         st.markdown("### 🏛️ Case Intelligence")
         c1, c2 = st.columns(2)
         with c1:
-            cl_name = st.text_input("Claimant Name (You)")
-            juris = st.selectbox("Jurisdiction", list(STATUTES.keys()))
+            cl_name = st.text_input("Claimant Full Name (You)")
+            juris = st.selectbox("Select Jurisdiction", list(STATUTES.keys()))
         with c2:
-            res_name = st.text_input("Respondent Name")
-            curr = st.selectbox("Currency", CURRENCIES)
+            res_name = st.text_input("Respondent Name (Company or Person)")
+            curr = st.selectbox("Select Currency", CURRENCIES)
             
-        category = st.selectbox("Case Category", list(STATUTES[juris].keys()))
+        category = st.selectbox("Select Case Category", list(STATUTES[juris].keys()))
         amount = st.text_input(f"Total Amount Owed ({curr.split(' ')[1]})")
         details = st.text_area("Dispute Narrative (Be thorough with dates and facts)", height=150)
         
         if st.button("PROCESS OFFICIAL LEGAL DEMAND"):
             if cl_name and res_name and details:
                 st.session_state.cl_name, st.session_state.res_name = cl_name, res_name
+                st.session_state.cl_addr = "REDACTED UNTIL UNLOCK"
                 st.session_state.amount, st.session_state.details = amount, details
                 st.session_state.juris, st.session_state.category = juris, category
                 st.session_state.curr_sym = curr.split(' ')[1]
@@ -151,20 +188,18 @@ if not st.session_state.paid:
 
     if st.session_state.ready:
         st.divider()
-        st.markdown(f"**SUBJECT: FINAL NOTICE OF INTENT TO LITIGATE**")
-        st.markdown("""<div style="filter:blur(10px); background:#111; padding:20px; border:1px dashed #C0C0C0;">Notice is hereby given that your actions constitute a direct violation...</div>""", unsafe_allow_html=True)
-        if st.button("💎 UNLOCK COMMERCIAL DOCUMENT PACKAGE"):
-            if st.session_state.details.startswith("ADMIN-TEST"):
-                st.session_state.paid = True; st.rerun()
-            else:
-                st.link_button("PAY TO UNLOCK ($19.00)", "https://trend-shadows.lemonsqueezy.com/buy/1914602")
+        st.markdown(f"**SUBJECT: FINAL NOTICE OF INTENT TO LITIGATE - {st.session_state.category.upper()}**")
+        st.markdown("""<div style="filter:blur(10px); background:#111; padding:30px; border:1px dashed #C0C0C0;">Notice is hereby given that your actions constitute a direct violation...</div>""", unsafe_allow_html=True)
+        st.info("💡 **Admin Tip:** Use the sidebar code to unlock for free, or click below for commercial payment.")
+        st.link_button("💎 UNLOCK VIA SECURE CHECKOUT ($19.00)", "https://trend-shadows.lemonsqueezy.com/buy/1914602")
 
 else:
-    st.success("✅ DOCUMENT UNLOCKED.")
+    # --- FINAL PRODUCTION OUTPUT ---
+    st.success("AUTHENTICATION SUCCESSFUL. DOCUMENT UNLOCKED.")
     law = STATUTES[st.session_state.juris].get(st.session_state.category)
     date_now = datetime.now().strftime("%B %d, %Y")
     
-    # THE FORMAL DOCUMENT
+    # Paper Content
     st.markdown(f"""
         <div class="legal-paper">
             <div style="display:flex; justify-content:space-between; width:100%;">
@@ -180,17 +215,17 @@ else:
             <p>Under the laws of {st.session_state.juris}, specifically regarding {st.session_state.category.lower()}, the withholding of these funds is a breach of legal obligations.</p>
             <p><b>DISPUTE NARRATIVE:</b><br>{st.session_state.details}</p>
             <p><b>LEGAL DEMAND:</b><br>Demand is hereby made for the immediate payment of the full balance. This must be received in full within 14 calendar days of the date of this notice.</p>
-            <p><b>INTENT TO LITIGATE:</b><br>Failure to comply will result in the immediate commencement of legal proceedings in Small Claims Court without further notice.</p>
+            <p><b>INTENT TO LITIGATE:</b><br>Failure to comply will result in the immediate commencement of legal proceedings in Small Claims Court without further notice. We will pursue the recovery of the full amount, interest, and costs.</p>
             <br><p>Sincerely,</p>
-            <div class="sig-line"></div>
+            <div class="sig-block"></div>
             <p><b>{st.session_state.cl_name}</b><br>Claimant</p>
         </div>
     """, unsafe_allow_html=True)
     
-    final_txt = f"FROM: {st.session_state.cl_name}\nDATE: {date_now}\n\nFORMAL DEMAND FOR {st.session_state.amount}\nViolation of {law}\n\nDetails: {st.session_state.details}"
-    st.download_button("📥 DOWNLOAD PRINT-READY DOC", final_txt, file_name="Legal_Demand_Final.doc")
+    final_text = f"FROM: {st.session_state.cl_name}\nDATE: {date_now}\n\nFORMAL DEMAND: {st.session_state.amount}\nViolation of: {law}\n\nDetails: {st.session_state.details}"
+    st.download_button("📥 DOWNLOAD PRINT-READY DOC", final_text, file_name="JusticeBot_Final_Demand.doc")
     if st.button("INITIATE NEW CASE"):
         st.session_state.paid = False; st.session_state.ready = False; st.rerun()
 
 st.divider()
-st.caption("Shadow-Build Global Engine v1.22 | Trend Shadows Executive Tier")
+st.caption("Shadow-Build Global Engine v1.23 | Trend Shadows Digital Agency")
