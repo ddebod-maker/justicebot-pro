@@ -3,27 +3,49 @@ import time
 from datetime import datetime
 
 # ============================================================
-# PROJECT: JUSTICE BOT AI (Global Executive v1.15)
+# PROJECT: JUSTICE BOT AI (Global Executive v1.17)
 # PRODUCED BY: Trend Shadows Digital Agency
-# STATUS: GLOBAL SCALE ACTIVE - 7 JURISDICTIONS | 10 DOMAINS
+# STATUS: PROFESSIONAL TERMINOLOGY ACTIVE | 7 JURISDICTIONS
 # ============================================================
 
 st.set_page_config(page_title="JusticeBot Pro | Global Digital Asset", layout="wide")
 
-# --- MASTER CSS (v1.15 - Global Industrial Silver) ---
+# --- MASTER CSS OVERHAUL (v1.17 - High-Contrast Visibility) ---
 st.markdown("""
     <style>
     .stApp { background-color: #000000 !important; }
     h1 { color: #FFFFFF !important; font-family: 'serif'; font-weight: 900 !important; font-size: 3.5rem !important; text-align: center; }
+    h3 { color: #FFFFFF !important; font-family: 'serif'; font-weight: 700 !important; }
+    label, .stMarkdown p { color: #FFFFFF !important; font-weight: 700 !important; opacity: 1 !important; }
+
+    /* Buttons: Solid Industrial Silver with Black Text */
     button, .stButton>button, .stDownloadButton>button {
         background-color: #C0C0C0 !important; color: #000000 !important; border: 2px solid #FFFFFF !important;
         font-weight: 900 !important; text-transform: uppercase !important; height: 3.5em !important; width: 100% !important;
     }
     button:hover { background-color: #FFFFFF !important; box-shadow: 0 0 20px rgba(255, 255, 255, 0.5) !important; }
+
+    /* Text Areas & Inputs */
     .stTextArea textarea, .stTextInput input {
         background-color: #111111 !important; color: #FFFFFF !important; border: 1px solid #C0C0C0 !important;
     }
-    label, .stMarkdown p, .stSelectbox label { color: #FFFFFF !important; font-weight: 700 !important; }
+
+    /* SELECTBOX VISIBILITY FIX */
+    div[data-baseweb="select"] > div {
+        background-color: #111111 !important;
+        color: #FFFFFF !important;
+        border: 1px solid #C0C0C0 !important;
+    }
+    div[data-testid="stSelectbox"] div[role="button"] {
+        color: #FFFFFF !important;
+        font-weight: 600 !important;
+    }
+    ul[role="listbox"] li {
+        background-color: #1a1a1a !important;
+        color: #ffffff !important;
+    }
+
+    /* Legal Document Preview */
     .legal-paper {
         background-color: #FFFFFF !important; color: #000000 !important; padding: 50px 70px !important;
         font-family: 'Times New Roman', serif !important; line-height: 1.6 !important;
@@ -86,7 +108,7 @@ STATUTES = {
     },
     "Canada (CA)": {
         "Security Deposit Recovery": "Residential Tenancies Acts (Provincial)",
-        "Unpaid Freelance Invoice": "Sale of Goods Act (Ontario/BC)",
+        "Unpaid Freelance Invoice": "Sale of Goods Act (Provincial)",
         "Private Vehicle Sale": "Provincial Consumer Protection Statutes",
         "Electronics/Goods Sale": "Consumer Protection Act (Section 14)",
         "Travel/Flight Refund": "Air Passenger Protection Regulations (APPR)",
@@ -146,9 +168,10 @@ if not st.session_state.paid:
         st.divider()
         category = st.selectbox("Case Category", list(STATUTES[jurisdiction].keys()))
         amount = st.text_input(f"Total Amount Owed ({currency.split(' ')[1]})")
-        details = st.text_area("Dispute Narrative (Be thorough)", height=150)
+        details = st.text_area("Dispute Narrative (Names, Dates, Specific Events)", height=150)
         
-        if st.button("ARCHITECT GLOBAL DEMAND"):
+        # RENAMED FOR PROFESSIONALISM: No more "Architect Global Demand"
+        if st.button("PROCESS OFFICIAL LEGAL DEMAND"):
             if cl_name and res_name and details and amount:
                 st.session_state.cl_name, st.session_state.res_name = cl_name, res_name
                 st.session_state.amount, st.session_state.details = amount, details
@@ -194,4 +217,4 @@ else:
     st.download_button("DOWNLOAD OFFICIAL WORD DOCUMENT", final_body, file_name="Legal_Demand.doc")
 
 st.divider()
-st.caption("Shadow-Build Global Engine v1.15 | Trend Shadows Digital Agency")
+st.caption("Shadow-Build Global Engine v1.17 | Trend Shadows Digital Agency")
