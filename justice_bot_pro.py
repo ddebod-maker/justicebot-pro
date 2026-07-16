@@ -3,28 +3,47 @@ import time
 from datetime import datetime
 
 # ============================================================
-# PROJECT: JUSTICE BOT AI (Global Executive v1.24)
+# PROJECT: JUSTICE BOT AI (Global Executive v1.25)
 # PRODUCED BY: Trend Shadows Digital Agency
-# STATUS: VOUCHER LOGIC FIXED | FULL 10-DOMAIN ENGINE
+# STATUS: ULTIMATE VISIBILITY REPAIR | 10 DOMAINS | 7 JURISDICTIONS
 # ============================================================
 
 st.set_page_config(page_title="JusticeBot Pro | Global Elite", layout="wide")
 
-# --- SYSTEM VERSION (Sidebar) ---
-st.sidebar.markdown("`SYSTEM VERSION: v1.24`")
+# --- VERSION STAMP ---
+st.sidebar.markdown("`SYSTEM VERSION: v1.25`")
 st.sidebar.markdown("---")
 
-# --- MASTER CSS (Visibility & High-End Industrial Standard) ---
+# --- ULTIMATE CSS VISIBILITY OVERHAUL (v1.25) ---
 st.markdown("""
     <style>
     .stApp { background-color: #000000 !important; }
     
-    /* Global Text & Headings */
-    h1 { color: #FFFFFF !important; font-family: 'serif'; font-weight: 900 !important; font-size: 3.5rem !important; text-align: center; }
-    h3 { color: #FFFFFF !important; font-family: 'serif'; font-weight: 700 !important; }
-    label, .stMarkdown p { color: #FFFFFF !important; font-weight: 700 !important; font-size: 1.1rem !important; }
+    /* 1. SELECTION BOX VISIBILITY - FORCED HIGH CONTRAST */
+    /* Target the container */
+    div[data-testid="stSelectbox"] > div {
+        background-color: #C0C0C0 !important;
+        border: 2px solid #FFFFFF !important;
+        border-radius: 4px !important;
+    }
+    
+    /* Target the text inside the closed box */
+    div[data-testid="stSelectbox"] [data-baseweb="select"] div {
+        color: #000000 !important;
+        font-weight: 800 !important;
+        font-size: 1.1rem !important;
+    }
+    
+    /* Target the arrow */
+    div[data-testid="stSelectbox"] svg {
+        fill: #000000 !important;
+    }
 
-    /* Input Field Visibility - DARK THEME COMPATIBLE */
+    /* 2. LABELS & HEADINGS */
+    h1 { color: #FFFFFF !important; font-family: 'serif'; font-weight: 900 !important; font-size: 3.5rem !important; text-align: center; }
+    label, .stMarkdown p { color: #FFFFFF !important; font-weight: 700 !important; font-size: 1.1rem !important; }
+    
+    /* 3. INPUT FIELDS */
     .stTextArea textarea, .stTextInput input {
         background-color: #111111 !important;
         color: #FFFFFF !important;
@@ -32,16 +51,7 @@ st.markdown("""
         font-size: 16px !important;
     }
 
-    /* DROPDOWN VISIBILITY FIX */
-    div[data-testid="stSelectbox"] > div {
-        background-color: #C0C0C0 !important;
-        color: #000000 !important;
-        border-radius: 4px !important;
-        border: 2px solid #FFFFFF !important;
-    }
-    div[data-testid="stSelectbox"] p { color: #000000 !important; font-weight: 900 !important; }
-
-    /* BUTTONS: Solid Silver / Black Text */
+    /* 4. BUTTONS: Industrial Silver */
     button, .stButton>button, .stDownloadButton>button {
         background-color: #C0C0C0 !important;
         color: #000000 !important;
@@ -49,20 +59,23 @@ st.markdown("""
         text-transform: uppercase !important;
         border: 2px solid #FFFFFF !important;
         height: 3.5em !important;
-        width: 100% !important;
     }
-    button:hover { background-color: #FFFFFF !important; box-shadow: 0 0 20px rgba(255, 255, 255, 0.5) !important; }
 
-    /* LEGAL DOCUMENT PREVIEW (Paper Style) */
+    /* 5. THE PRO LEGAL DOCUMENT (Premium Bond Stationery) */
     .legal-paper {
-        background-color: #FFFFFF !important; color: #000000 !important;
-        padding: 60px 80px !important; font-family: 'Times New Roman', serif !important;
-        line-height: 1.6 !important; border: 12px double #000000 !important;
-        margin: 50px auto !important; max-width: 900px !important; text-align: left !important;
+        background-color: #FFFFFF !important;
+        color: #000000 !important;
+        padding: 80px 100px !important;
+        font-family: 'Times New Roman', serif !important;
+        line-height: 1.6 !important;
+        border: 12px double #000000 !important;
+        margin: 50px auto !important;
+        max-width: 900px !important;
+        text-align: left !important;
         box-shadow: 0 0 60px rgba(255, 255, 255, 0.1) !important;
     }
     .legal-paper * { color: #000000 !important; }
-    .sig-line { margin-top: 60px; border-top: 2px solid #000; width: 300px; padding-top: 10px; }
+    .sig-block { margin-top: 60px; border-top: 2px solid #000; width: 300px; padding-top: 10px; }
 
     .ts-logo { font-size: 32px; font-weight: 900; letter-spacing: 10px; color: #FFFFFF; text-align: right; margin-bottom: 20px; }
     </style>
@@ -73,18 +86,18 @@ STATUTES = {
     "United States (US)": {
         "Security Deposit Recovery": "US Civil Code Section 1950.5",
         "Unpaid Freelance Invoice": "UCC Article 2 / Breach of Contract",
-        "Private Vehicle Sale": "State Bill of Sale Statutes",
+        "Private Vehicle Sale": "State Bill of Sale & Lemon Laws",
         "Electronics/Goods Sale": "Magnuson-Moss Warranty Act",
         "Travel/Flight Refund": "US DOT Refund Mandates",
         "Service Cancellation": "State Consumer Statutes",
-        "Employment/Unpaid Wages": "FLSA Regulations",
+        "Employment/Unpaid Wages": "Fair Labor Standards Act (FLSA)",
         "Insurance Claim Dispute": "Insurance Fair Conduct Act",
         "Property Damage Claim": "General Tort Law",
-        "General Cease & Desist": "Common Law Harassment Codes"
+        "General Cease & Desist": "Common Law Defamation/Harassment"
     },
     "United Kingdom (UK)": {
         "Security Deposit Recovery": "Housing Act 2004",
-        "Unpaid Freelance Invoice": "Late Payment Act 1998",
+        "Unpaid Freelance Invoice": "Late Payment of Commercial Debts Act 1998",
         "Private Vehicle Sale": "Sale of Goods Act 1979",
         "Electronics/Goods Sale": "Consumer Rights Act 2015",
         "Travel/Flight Refund": "UK261 Regulations",
@@ -92,12 +105,12 @@ STATUTES = {
         "Employment/Unpaid Wages": "Employment Rights Act 1996",
         "Insurance Claim Dispute": "FOS Guidelines",
         "Property Damage Claim": "Occupiers' Liability Act",
-        "General Cease & Desist": "Protection from Harassment Act"
+        "General Cease & Desist": "Protection from Harassment Act 1997"
     },
     "South Africa (ZA)": {
         "Security Deposit Recovery": "Rental Housing Act 50 of 1999",
         "Unpaid Freelance Invoice": "Prescribed Rate of Interest Act 55 of 1975",
-        "Private Vehicle Sale": "Private Sale Agreement (Voetstoots)",
+        "Private Vehicle Sale": "Private Sale Agreement (Voetstoots Protocol)",
         "Electronics/Goods Sale": "Consumer Protection Act Section 55",
         "Travel/Flight Refund": "Consumer Protection Act Section 47",
         "Service Cancellation": "Consumer Protection Act Section 14",
@@ -161,29 +174,28 @@ CURRENCIES = ["USD ($)", "GBP (£)", "ZAR (R)", "AUD ($)", "NZD ($)", "CAD ($)",
 if 'paid' not in st.session_state: st.session_state.paid = False
 if 'ready' not in st.session_state: st.session_state.ready = False
 
-# --- BRANDING ---
 st.markdown('<div class="ts-logo">TS</div>', unsafe_allow_html=True)
 st.title("JusticeBot Pro Global")
-st.markdown("<p style='text-align:center; color:#888; letter-spacing:5px;'>ELITE LEGAL RECOVERY TERMINAL</p>", unsafe_allow_html=True)
+st.markdown("<p style='text-align:center; color:#888; letter-spacing:5px;'>CERTIFIED LEGAL RECOVERY TERMINAL</p>", unsafe_allow_html=True)
 st.divider()
 
-# --- MAIN WORKFLOW ---
 if not st.session_state.paid:
     with st.container():
         st.markdown("### 🏛️ Case Intelligence")
         c1, c2 = st.columns(2)
         with c1:
-            cl_name = st.text_input("Claimant Full Name (You)", key="cl_name_input")
-            juris = st.selectbox("Select Jurisdiction", list(STATUTES.keys()), key="juris_select")
+            cl_name = st.text_input("Claimant Full Name (You)", key="cl_name_125")
+            juris = st.selectbox("Select Jurisdiction", list(STATUTES.keys()), key="juris_125")
         with c2:
-            res_name = st.text_input("Respondent Name (Company or Person)", key="res_name_input")
-            curr = st.selectbox("Select Currency", CURRENCIES, key="curr_select")
+            res_name = st.text_input("Respondent Name (Company or Person)", key="res_name_125")
+            curr = st.selectbox("Select Currency", CURRENCIES, key="curr_125")
             
-        category = st.selectbox("Select Case Category", list(STATUTES[juris].keys()), key="cat_select")
-        amount = st.text_input(f"Total Amount Owed ({curr.split(' ')[1]})", key="amt_input")
-        details = st.text_area("Dispute Narrative (Be thorough with dates and facts)", height=150, key="details_input")
+        st.divider()
+        category = st.selectbox("Select Case Category", list(STATUTES[juris].keys()), key="cat_125")
+        amount = st.text_input(f"Total Amount Owed ({curr.split(' ')[1]})", key="amt_125")
+        details = st.text_area("Dispute Narrative (Be thorough with dates and facts)", height=150, key="det_125")
         
-        if st.button("PROCESS OFFICIAL LEGAL DEMAND", key="proc_btn"):
+        if st.button("PROCESS OFFICIAL LEGAL DEMAND", key="proc_125"):
             if cl_name and res_name and details:
                 st.session_state.cl_name, st.session_state.res_name = cl_name, res_name
                 st.session_state.amount, st.session_state.details = amount, details
@@ -199,16 +211,15 @@ if not st.session_state.paid:
         
         st.markdown("---")
         st.markdown("### 💎 Unlock Full Document")
-        v_code = st.text_input("Enter Voucher Code (Admin Only)", type="password", key="v_input")
+        v_code = st.text_input("Enter Voucher Code (Admin Only)", type="password", key="vouch_125")
         
-        if st.button("AUTHENTICATE & UNLOCK PACKAGE", key="unlock_btn"):
+        if st.button("AUTHENTICATE & UNLOCK PACKAGE", key="auth_125"):
             if v_code == "TS-GIFT-2026":
                 st.session_state.paid = True
                 st.rerun()
             else:
                 checkout_url = "https://trend-shadows.lemonsqueezy.com/buy/1914602"
                 st.markdown(f'<meta http-equiv="refresh" content="0; url={checkout_url}">', unsafe_allow_html=True)
-                st.warning("Invalid code. Redirecting to secure checkout...")
 
 else:
     # --- FINAL PRODUCTION OUTPUT ---
@@ -231,14 +242,14 @@ else:
             <br>
             <p style="color:#000; white-space: pre-wrap;">{body}</p>
             <br><p style="color:#000;">Sincerely,</p>
-            <div class="sig-line" style="border-top: 2px solid #000;"></div>
+            <div class="sig-block" style="border-top: 2px solid #000;"></div>
             <p style="color:#000;"><b>{st.session_state.cl_name}</b><br>Claimant</p>
         </div>
     """, unsafe_allow_html=True)
     
-    st.download_button("DOWNLOAD OFFICIAL WORD DOCUMENT", body, file_name="Legal_Demand.doc", key="dl_btn")
-    if st.button("INITIATE NEW CASE", key="new_btn"):
+    st.download_button("DOWNLOAD OFFICIAL WORD DOCUMENT", body, file_name="Legal_Demand.doc", key="dl_125")
+    if st.button("INITIATE NEW CASE", key="new_125"):
         st.session_state.paid = False; st.session_state.ready = False; st.rerun()
 
 st.divider()
-st.caption("Shadow-Build Global Engine v1.24 | Trend Shadows Digital Agency")
+st.caption("Shadow-Build Global Engine v1.25 | Trend Shadows Digital Agency")
