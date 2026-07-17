@@ -4,7 +4,7 @@ from datetime import datetime
 import io
 
 # --- VERSION STAMP ---
-VERSION = "v1.43.1"
+VERSION = "v1.43.3"
 BUILD_DATE = "2026-07-17"
 
 # --- FAIL-SAFE ENGINE ---
@@ -370,67 +370,66 @@ else:
         target = io.BytesIO(); doc.save(target); return target.getvalue()
 
     # Sleek Stationer Rendering (HTML)
-    # We build the body line by line to ensure no clipping or character breaks
     body_html = ""
     for line in content_body.split('\n'):
         if not line.strip():
             body_html += "<br>"
         elif ":" in line and len(line) < 45 and (line.isupper() or line.endswith(':')):
-            body_html += f"<b style='text-decoration: underline;'>{line}</b><br>"
+            body_html += f"<b style='text-decoration: underline; color: #000;'>{line}</b><br>"
         else:
-            body_html += f"<span>{line}</span><br>"
+            body_html += f"<span style='color: #000;'>{line}</span><br>"
 
-    st.markdown(f"""
-        <div class="legal-paper">
-            <div class="preview-header">
-                <div style="font-size: 11px; color: #555;">REF: {v['ref']}</div>
-                <div class="preview-brand">
-                    <div class="main">TREND SHADOWS</div>
-                    <div class="sub">JUSTICE BOT PRO GLOBAL</div>
-                </div>
-            </div>
-            
-            <div class="party-block">
-                <div class="party-cell" style="color: #000;">
-                    <b style="color: #000;">FROM (CLAIMANT/SELLER):</b><br>
-                    {v['cl']}<br>
-                    ID: {cl_id_clean if cl_id_clean else 'N/A'}<br>
-                    {v['cla'].replace('\n','<br>')}
-                </div>
-                <div class="party-cell" style="text-align:right; color: #000;">
-                    <b style="color: #000;">TO (RESPONDENT/BUYER):</b><br>
-                    {v['res']}<br>
-                    ID: {res_id_clean if res_id_clean else 'N/A'}<br>
-                    {v['resa'].replace('\n','<br>')}
-                </div>
-            </div>
-            
-            <div style="text-align:right; font-size: 12px; margin-bottom: 20px; color: #000;"><b>DATE:</b> {date_now}</div>
-            
-            <div class="doc-title" style="color: #000;">{doc_title}</div>
-            
-            <div style="font-size: 14px; text-align: justify; color: #000 !important; font-family: 'Times New Roman', serif; line-height: 1.6;">
-                {body_html}
-            </div>
-            
-            <div class="sig-section">
-                <div class="sig-box" style="color: #000; border-top: 2px solid #000;">
-                    __________________________<br>
-                    <b style="color: #000;">FOR THE SELLER / CLAIMANT</b><br>
-                    Name: {v['cl']}
-                </div>
-                <div class="sig-box" style="text-align:right; color: #000; border-top: 2px solid #000;">
-                    __________________________<br>
-                    <b style="color: #000;">FOR THE BUYER / RESPONDENT</b><br>
-                    Name: {v['res']}
-                </div>
-            </div>
-            
-            <div style="margin-top: 50px; border-top: 1px solid #eee; padding-top: 10px; font-size: 10px; text-align: center; color: #888; font-style: italic;">
-                This document is a legally binding instrument generated via Trend Shadows JusticeBot Pro Global. (c) 2026.
-            </div>
+    # IMPORTANT: HTML must be flush-left in the string to prevent Markdown from treating it as a code block
+    preview_html = f"""
+<div style="background-color: #FFFFFF; color: #000000; padding: 60px; font-family: 'Times New Roman', serif; line-height: 1.5; border: 1px solid #ddd; max-width: 850px; margin: auto; text-align: left;">
+    <div style="border-bottom: 2px solid #000; padding-bottom: 15px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: flex-end;">
+        <div style="font-size: 11px; color: #555;">REF: {v['ref']}</div>
+        <div style="text-align: right;">
+            <div style="font-family: Arial, sans-serif; font-weight: 900; font-size: 20px;">TREND SHADOWS</div>
+            <div style="font-size: 10px; font-style: italic; color: #555;">JUSTICE BOT PRO GLOBAL</div>
         </div>
-    """, unsafe_allow_html=True)
+    </div>
+    
+    <div style="display: flex; justify-content: space-between; margin-bottom: 30px;">
+        <div style="width: 45%; font-size: 12px; color: #000;">
+            <b style="color: #000;">FROM (CLAIMANT/SELLER):</b><br>
+            {v['cl']}<br>
+            ID: {cl_id_clean if cl_id_clean else 'N/A'}<br>
+            {v['cla'].replace('\n','<br>')}
+        </div>
+        <div style="width: 45%; text-align: right; font-size: 12px; color: #000;">
+            <b style="color: #000;">TO (RESPONDENT/BUYER):</b><br>
+            {v['res']}<br>
+            ID: {res_id_clean if res_id_clean else 'N/A'}<br>
+            {v['resa'].replace('\n','<br>')}
+        </div>
+    </div>
+    
+    <div style="text-align: right; font-size: 12px; margin-bottom: 20px; color: #000;"><b>DATE:</b> {date_now}</div>
+    
+    <div style="text-align: center; font-family: Arial, sans-serif; font-weight: 900; font-size: 18px; text-decoration: underline; margin: 30px 0; text-transform: uppercase; color: #000;">{doc_title}</div>
+    
+    <div style="font-size: 14px; text-align: justify; color: #000; font-family: 'Times New Roman', serif; line-height: 1.6; white-space: pre-wrap;">{content_body}</div>
+    
+    <div style="display: flex; justify-content: space-between; margin-top: 60px;">
+        <div style="width: 40%; border-top: 2px solid #000; padding-top: 10px; font-size: 11px; color: #000;">
+            __________________________<br>
+            <b style="color: #000;">FOR THE SELLER / CLAIMANT</b><br>
+            Name: {v['cl']}
+        </div>
+        <div style="width: 40%; border-top: 2px solid #000; padding-top: 10px; font-size: 11px; color: #000; text-align: right;">
+            __________________________<br>
+            <b style="color: #000;">FOR THE BUYER / RESPONDENT</b><br>
+            Name: {v['res']}
+        </div>
+    </div>
+    
+    <div style="margin-top: 50px; border-top: 1px solid #eee; padding-top: 10px; font-size: 10px; text-align: center; color: #888; font-style: italic;">
+        This document is a legally binding instrument generated via Trend Shadows JusticeBot Pro Global. (c) 2026.
+    </div>
+</div>
+"""
+    st.markdown(preview_html, unsafe_allow_html=True)
     
     docx_bytes = generate_pro_docx(v, doc_title, content_body, date_now, cl_id_clean, res_id_clean)
     
