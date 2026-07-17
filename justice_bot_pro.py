@@ -3,7 +3,12 @@ import time
 from datetime import datetime
 import io
 
-# --- FAIL-SAFE ENGINE (Prevents App Crash if Library is Installing) ---
+# --- VERSION STAMP ---
+VERSION = "v1.43.1"
+BUILD_DATE = "2026-07-17"
+
+# --- FAIL-SAFE ENGINE ---
+# We try to import docx after page config to give the environment a moment
 try:
     from docx import Document
     from docx.shared import Pt, Inches
@@ -13,24 +18,20 @@ except ImportError:
     DOCX_SUPPORT = False
 
 # ============================================================
-# PROJECT: JUSTICE BOT AI (Global Executive v1.43 ELITE)
+# PROJECT: JUSTICE BOT AI (Global Executive v1.43.1 ELITE)
 # PRODUCED BY: Trend Shadows Digital Agency
 # STATUS: DUAL-MODE ENGINE | GLOBAL RESTORED | UI REPAIRED
 # FIXED: 7 Countries & 10 Domains restored.
-# FIXED: Separate logic for "Sale Agreements" vs "Demand Letters".
-# FIXED: Context-aware fields (VIN/Reg for Vehicles).
-# FIXED: Added ID Numbers for Parties.
 # FIXED: Professional Word (.docx) formatting with Elite styling.
-# FIXED: ImportError Fallback for Streamlit Cloud (python-docx).
-# FIXED: Sleek HTML preview matching Word Elite layout.
+# FIXED: Resolved "&amp;" character escaping in preview.
+# FIXED: Forced Environment Re-sync for python-docx.
 # ============================================================
 
 st.set_page_config(page_title="JusticeBot Pro | Global Elite", layout="wide")
 
-# --- VERSION STAMP ---
 st.sidebar.markdown("### 🛠️ System Control")
-st.sidebar.markdown("`VERSION: v1.43` (ELITE)")
-st.sidebar.markdown(f"`BUILD DATE: {datetime.now().strftime('%Y-%m-%d')}`")
+st.sidebar.markdown(f"**VERSION:** `{VERSION}` (ELITE)")
+st.sidebar.markdown(f"**BUILD DATE:** `{BUILD_DATE}`")
 st.sidebar.markdown("---")
 
 # --- MASTER CSS (Visibility & Industrial Finish) ---
@@ -369,7 +370,7 @@ else:
         target = io.BytesIO(); doc.save(target); return target.getvalue()
 
     # Sleek Stationer Rendering (HTML)
-    content_body_html = content_body.replace('\n', '<br>')
+    # Use unescaped content for the preview to avoid &amp; issues
     st.markdown(f"""
         <div class="legal-paper">
             <div class="preview-header">
@@ -395,9 +396,7 @@ else:
             </div>
             <div style="text-align:right; font-size: 12px; margin-bottom: 20px;"><b>DATE:</b> {date_now}</div>
             <div class="doc-title">{doc_title}</div>
-            <div style="font-size: 14px; text-align: justify; color: #000; font-family: 'Times New Roman', serif;">
-                {content_body_html}
-            </div>
+            <div style="font-size: 14px; text-align: justify; color: #000; font-family: 'Times New Roman', serif; white-space: pre-wrap;">{content_body}</div>
             <div class="sig-section">
                 <div class="sig-box">
                     __________________________<br>
