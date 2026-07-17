@@ -29,7 +29,7 @@ st.set_page_config(page_title="JusticeBot Pro | Global Elite", layout="wide")
 
 # --- VERSION STAMP ---
 st.sidebar.markdown("### 🛠️ System Control")
-st.sidebar.markdown("`VERSION: v1.42` (STABLE)")
+st.sidebar.markdown("`VERSION: v1.43` (ELITE)")
 st.sidebar.markdown(f"`BUILD DATE: {datetime.now().strftime('%Y-%m-%d')}`")
 st.sidebar.markdown("---")
 
@@ -272,76 +272,126 @@ else:
             return None
         doc = Document()
         
-        # Style settings
+        # Global Style
         style = doc.styles['Normal']
         font = style.font
         font.name = 'Times New Roman'
         font.size = Pt(11)
         
-        # Branding Header
-        header = doc.sections[0].header
-        htable = header.add_table(1, 2, width=Inches(6))
-        htable.columns[0].width = Inches(4)
-        htable.columns[1].width = Inches(2)
-        h_run = htable.cell(0, 1).paragraphs[0].add_run("TS")
-        h_run.bold = True
-        h_run.font.size = Pt(24)
-        h_run.font.name = 'Arial Black' # Industrial look
-        htable.cell(0, 1).paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.RIGHT
+        # 1. BRANDING HEADER (Top Right)
+        section = doc.sections[0]
+        header = section.header
+        htable = header.add_table(1, 2, width=Inches(6.5))
+        htable.columns[0].width = Inches(4.5)
+        htable.columns[1].width = Inches(2.0)
         
-        # Addresses
-        p1 = doc.add_paragraph()
-        p1.add_run("FROM:").bold = True
-        p1.add_run(f"\n{v.get('cl', '')}")
-        if v.get('cl_id'): p1.add_run(f"\nID: {v['cl_id']}")
-        p1.add_run(f"\n{v.get('cla', '')}")
+        # Left side of header (Empty or Address)
+        # Right side: Logo
+        h_cell = htable.cell(0, 1)
+        hp = h_cell.paragraphs[0]
+        hp.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+        hr = hp.add_run("TREND SHADOWS")
+        hr.bold = True
+        hr.font.size = Pt(10)
+        hr.font.name = 'Arial'
         
-        p2 = doc.add_paragraph()
-        p2.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-        p2.add_run("DATE:").bold = True
-        p2.add_run(f"\n{date_str}")
+        hp2 = h_cell.add_paragraph()
+        hp2.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+        hr2 = hp2.add_run("JUSTICE BOT PRO")
+        hr2.font.size = Pt(8)
+        hr2.font.name = 'Arial'
+        hr2.italic = True
+
+        # 2. PARTY INFORMATION BLOCK
+        # Use a table for clean alignment
+        table = doc.add_table(rows=1, cols=2)
+        table.autofit = False
+        table.columns[0].width = Inches(3.25)
+        table.columns[1].width = Inches(3.25)
         
-        p3 = doc.add_paragraph()
-        p3.add_run("TO:").bold = True
-        p3.add_run(f"\n{v.get('res', '')}")
-        if v.get('res_id'): p3.add_run(f"\nID: {v['res_id']}")
-        p3.add_run(f"\n{v.get('resa', '')}")
+        # FROM Cell
+        c1 = table.cell(0, 0)
+        cp1 = c1.paragraphs[0]
+        cp1.add_run("FROM (CLAIMANT/SELLER):").bold = True
+        cp1.add_run(f"\n{v.get('cl', '')}")
+        if v.get('cl_id'): cp1.add_run(f"\nID: {v['cl_id']}")
+        cp1.add_run(f"\n{v.get('cla', '')}")
+        
+        # TO Cell
+        c2 = table.cell(0, 1)
+        cp2 = c2.paragraphs[0]
+        cp2.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+        cp2.add_run("TO (RESPONDENT/BUYER):").bold = True
+        cp2.add_run(f"\n{v.get('res', '')}")
+        if v.get('res_id'): cp2.add_run(f"\nID: {v['res_id']}")
+        cp2.add_run(f"\n{v.get('resa', '')}")
+
+        doc.add_paragraph("\n")
+        
+        # 3. DATE & REFERENCE
+        dr = doc.add_paragraph()
+        dr.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+        dr.add_run(f"DATE: {date_str}").bold = True
         
         doc.add_paragraph("\n")
         
-        # Title
+        # 4. MAIN TITLE
         t = doc.add_paragraph()
         t.alignment = WD_ALIGN_PARAGRAPH.CENTER
         tr = t.add_run(title)
         tr.bold = True
-        tr.underline = True
-        tr.font.size = Pt(14)
+        tr.font.size = Pt(16)
+        tr.font.name = 'Arial'
         
+        # Decorative Line
+        p_line = doc.add_paragraph()
+        p_line.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        p_line.add_run("_______________________________________________________")
+
         doc.add_paragraph("\n")
         
-        # Content
+        # 5. CONTENT BODY
         for line in body.split('\n'):
             line = line.strip()
             if not line:
                 doc.add_paragraph("")
                 continue
-            if ":" in line and len(line) < 40 and (line.isupper() or line.endswith(':')):
-                p = doc.add_paragraph()
-                p.add_run(line).bold = True
+            
+            p = doc.add_paragraph()
+            if ":" in line and len(line) < 45 and (line.isupper() or line.endswith(':')):
+                # Section Heading
+                run = p.add_run(line)
+                run.bold = True
+                run.underline = True
             else:
-                p = doc.add_paragraph(line)
+                # Standard Paragraph
+                p.add_run(line)
                 p.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
             
-        doc.add_paragraph("\nSincerely,")
-        doc.add_paragraph("\n__________________________")
-        doc.add_paragraph(f"Authorized Signature\n{v.get('cl', '')}")
+        doc.add_paragraph("\n\n")
         
-        # Footer
-        footer = doc.sections[0].footer
+        # 6. SIGNATURE BLOCK (Side-by-Side)
+        sig_table = doc.add_table(rows=2, cols=2)
+        sig_table.columns[0].width = Inches(3.25)
+        sig_table.columns[1].width = Inches(3.25)
+        
+        # Seller Sig
+        s1 = sig_table.cell(0, 0)
+        s1.paragraphs[0].add_run("__________________________\nFOR THE SELLER / CLAIMANT")
+        s1.add_paragraph(f"Name: {v.get('cl', '')}")
+        
+        # Buyer Sig
+        s2 = sig_table.cell(0, 1)
+        s2.paragraphs[0].add_run("__________________________\nFOR THE BUYER / RESPONDENT")
+        s2.add_paragraph(f"Name: {v.get('res', '')}")
+        
+        # 7. FOOTER
+        footer = section.footer
         fp = footer.paragraphs[0]
-        fp.text = "Generated by JusticeBot Pro | Trend Shadows Digital Agency"
+        fp.text = "This document is a legally binding instrument generated via Trend Shadows JusticeBot Pro Global. (c) 2026."
         fp.alignment = WD_ALIGN_PARAGRAPH.CENTER
         fp.style.font.size = Pt(8)
+        fp.style.font.italic = True
         
         target = io.BytesIO()
         doc.save(target)
@@ -368,10 +418,10 @@ else:
     docx_bytes = generate_pro_docx(v, doc_title, content_body, date_now)
     
     if DOCX_SUPPORT and docx_bytes:
-        st.download_button("📥 DOWNLOAD OFFICIAL DOCUMENT (.DOCX)", docx_bytes, file_name=f"JusticeBot_{v['cat'].replace(' ', '_')}.docx", mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document", key="final_dl")
+        st.download_button("📥 DOWNLOAD OFFICIAL WORD DOCUMENT (.DOCX)", docx_bytes, file_name=f"JusticeBot_{v['cat'].replace(' ', '_')}.docx", mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document", key="final_dl")
     else:
-        st.warning("⚠️ Professional .DOCX engine is initializing on server. Standard format available below.")
-        st.download_button("📥 DOWNLOAD OFFICIAL DOCUMENT (Standard)", content_body, file_name=f"JusticeBot_{v['cat'].replace(' ', '_')}.txt", key="final_dl_fallback")
+        st.warning("🚨 ATTENTION: Professional Word Engine is installing on server. This takes 60 seconds on first run. Please refresh in a moment for the ELITE format.")
+        st.download_button("📥 DOWNLOAD TEMPORARY DOCUMENT (NOTEPAD)", content_body, file_name=f"JusticeBot_{v['cat'].replace(' ', '_')}.txt", key="final_dl_fallback")
     if st.button("INITIATE NEW CASE"):
         st.session_state.paid_v42 = False; st.session_state.ready_v42 = False; st.session_state.vault_v42 = {}; st.rerun()
 
