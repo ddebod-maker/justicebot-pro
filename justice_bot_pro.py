@@ -3,16 +3,16 @@ import time
 from datetime import datetime
 
 # ============================================================
-# PROJECT: JUSTICE BOT AI (Global Executive v1.36)
+# PROJECT: JUSTICE BOT AI (Global Executive v1.38)
 # PRODUCED BY: Trend Shadows Digital Agency
-# STATUS: 10-DOMAIN ENGINE | DATA VAULT FIXED | LAYOUT RESTORED
+# STATUS: INDUSTRIAL LEGAL STANDARD | WORD EXPORT FIXED
 # ============================================================
 
 st.set_page_config(page_title="JusticeBot Pro | Global Elite", layout="wide")
 
 # --- VERSION STAMP (Sidebar) ---
 st.sidebar.markdown("### 🛠️ System Control")
-st.sidebar.markdown(f"`VERSION: v1.36` (STABLE)")
+st.sidebar.markdown(f"`VERSION: v1.38` (STABLE)")
 st.sidebar.markdown(f"`BUILD DATE: {datetime.now().strftime('%Y-%m-%d')}`")
 st.sidebar.markdown("---")
 
@@ -21,7 +21,7 @@ st.markdown("""
     <style>
     .stApp { background-color: #000000 !important; }
     
-    /* 1. SELECTION BOX VISIBILITY - FORCED BLACK ON SILVER */
+    /* 1. DROPDOWN VISIBILITY - FORCED BLACK ON SILVER */
     div[data-testid="stSelectbox"] > div {
         background-color: #C0C0C0 !important; color: #000000 !important;
         border: 2px solid #FFFFFF !important;
@@ -35,20 +35,15 @@ st.markdown("""
     
     /* 3. INPUT FIELDS */
     .stTextArea textarea, .stTextInput input {
-        background-color: #111111 !important;
-        color: #FFFFFF !important;
-        border: 1px solid #C0C0C0 !important;
+        background-color: #111111 !important; color: #FFFFFF !important; border: 1px solid #C0C0C0 !important;
         font-size: 16px !important;
     }
 
     /* 4. BUTTONS: Solid Industrial Silver */
     button, .stButton>button, .stDownloadButton>button {
-        background-color: #C0C0C0 !important;
-        color: #000000 !important;
-        font-weight: 900 !important;
-        text-transform: uppercase !important;
-        border: 2px solid #FFFFFF !important;
-        height: 3.5em !important;
+        background-color: #C0C0C0 !important; color: #000000 !important;
+        font-weight: 900 !important; text-transform: uppercase !important;
+        border: 2px solid #FFFFFF !important; height: 3.5em !important;
     }
     button:hover { background-color: #FFFFFF !important; box-shadow: 0 0 20px rgba(255, 255, 255, 0.5) !important; }
 
@@ -56,7 +51,7 @@ st.markdown("""
     .legal-paper {
         background-color: #FFFFFF !important; color: #000000 !important;
         padding: 80px 100px !important; font-family: 'Times New Roman', serif !important;
-        line-height: 1.6 !important; border: 12px double #000000 !important;
+        line-height: 1.6 !important; border: 1px solid #ddd !important;
         margin: 40px auto !important; max-width: 900px !important; text-align: left !important;
         box-shadow: 0 0 60px rgba(255, 255, 255, 0.1) !important;
     }
@@ -79,7 +74,7 @@ STATUTES = {
         "Employment/Unpaid Wages": "Fair Labor Standards Act (FLSA)",
         "Insurance Claim Dispute": "State Insurance Fair Conduct Acts",
         "Property Damage Claim": "General Tort Law & Civil Liability Codes",
-        "General Cease & Desist": "Common Law Defamation & Harassment Statutes",
+        "General Ceist & Desist": "Common Law Defamation & Harassment Statutes",
         "Custom / Other": "Relevant Consumer Protection and Civil Statutes"
     },
     "United Kingdom (UK)": {
@@ -91,7 +86,7 @@ STATUTES = {
         "Employment/Unpaid Wages": "Employment Rights Act 1996",
         "Insurance Claim Dispute": "Financial Ombudsman Service (FOS) Guidelines",
         "Property Damage Claim": "Occupiers' Liability Act 1957",
-        "General Cease & Desist": "Protection from Harassment Act 1997",
+        "General Ceist & Desist": "Protection from Harassment Act 1997",
         "Custom / Other": "Relevant UK Common Law and Statutes"
     },
     "South Africa (ZA)": {
@@ -104,7 +99,7 @@ STATUTES = {
         "Employment/Unpaid Wages": "Basic Conditions of Employment Act",
         "Insurance Claim Dispute": "Short-Term Insurance Act / Ombudsman Protocol",
         "Property Damage Claim": "Apportionment of Damages Act 34 of 1956",
-        "General Cease & Desist": "Protection from Harassment Act 17 of 2011"
+        "General Ceist & Desist": "Protection from Harassment Act 17 of 2011"
     },
     "Canada (CA)": {
         "Security Deposit Recovery": "Provincial Residential Tenancy Acts and local Housing Regulations",
@@ -115,7 +110,7 @@ STATUTES = {
         "Employment/Unpaid Wages": "Canada Labour Code",
         "Insurance Claim Dispute": "Provincial Insurance Acts",
         "Property Damage Claim": "Negligence Act",
-        "General Cease & Desist": "Libel and Slander Act",
+        "General Ceist & Desist": "Libel and Slander Act",
         "Custom / Other": "Relevant Canadian Statutes and Regulations"
     },
     "India (IN)": {
@@ -128,7 +123,7 @@ STATUTES = {
         "Employment/Unpaid Wages": "Payment of Wages Act 1936",
         "Insurance Claim Dispute": "IRDAI Guidelines",
         "Property Damage Claim": "Tort of Negligence",
-        "General Cease & Desist": "IT Act 2000 / Defamation Laws"
+        "General Ceist & Desist": "IT Act 2000 / Defamation Laws"
     },
     "Australia (AU)": {
         "Security Deposit Recovery": "Residential Tenancies Act 2010",
@@ -140,7 +135,7 @@ STATUTES = {
         "Employment/Unpaid Wages": "Fair Work Act 2009",
         "Insurance Claim Dispute": "Insurance Contracts Act 1984",
         "Property Damage Claim": "Civil Liability Act 2002",
-        "General Cease & Desist": "Personal Violence Protection Act"
+        "General Ceist & Desist": "Personal Violence Protection Act"
     },
     "New Zealand (NZ)": {
         "Security Deposit Recovery": "Residential Tenancies Act 1986",
@@ -152,7 +147,7 @@ STATUTES = {
         "Employment/Unpaid Wages": "Employment Relations Act 2000",
         "Insurance Claim Dispute": "Insurance Law Reform Act",
         "Property Damage Claim": "Limitation Act 2010",
-        "General Cease & Desist": "Harassment Act 1997"
+        "General Ceist & Desist": "Harassment Act 1997"
     }
 }
 
@@ -173,21 +168,21 @@ if not st.session_state.paid:
         st.markdown("### 🏛️ Case Intelligence Architecture")
         c1, c2 = st.columns(2)
         with c1:
-            cl_name = st.text_input("Claimant Full Name / Business", key="cl_v36")
-            cl_addr = st.text_area("Claimant Physical Address", height=80, key="cla_v36")
-            juris = st.selectbox("Select Jurisdiction", list(STATUTES.keys()), key="jur_v36")
+            cl_name = st.text_input("Claimant Full Name / Business", key="cl_v38")
+            cl_addr = st.text_area("Claimant Physical Address", height=80, key="cla_v38")
+            juris = st.selectbox("Select Jurisdiction", list(STATUTES.keys()), key="jur_v38")
         with c2:
-            res_name = st.text_input("Respondent Name (Company or Person)", key="res_v36")
-            res_addr = st.text_area("Respondent Physical Address", height=80, key="resa_v36")
-            curr = st.selectbox("Select Currency", CURRENCIES, key="cur_v36")
+            res_name = st.text_input("Respondent Name (Company or Person)", key="res_v38")
+            res_addr = st.text_area("Respondent Physical Address", height=80, key="resa_v38")
+            curr = st.selectbox("Select Currency", CURRENCIES, key="cur_v38")
             
         st.divider()
-        category = st.selectbox("Case Category", list(STATUTES[juris].keys()), key="cat_v36")
-        amount = st.text_input(f"Total Amount Owed ({curr.split(' ')[1]})", key="amt_v36")
-        ref_no = st.text_input("Reference / Invoice / Lease Number", key="ref_v36")
-        details = st.text_area("Dispute Narrative (Be thorough with dates and facts)", height=150, key="det_v36")
+        category = st.selectbox("Case Category", list(STATUTES[juris].keys()), key="cat_v38")
+        amount = st.text_input(f"Total Amount Owed ({curr.split(' ')[1]})", key="amt_v38")
+        ref_no = st.text_input("Reference / Invoice / Lease Number", key="ref_v38")
+        details = st.text_area("Dispute Narrative (Be thorough with dates and facts)", height=150, key="det_v38")
         
-        if st.button("PROCESS OFFICIAL LEGAL DEMAND", key="btn_v36"):
+        if st.button("PROCESS OFFICIAL LEGAL DEMAND", key="btn_v38"):
             if cl_name and res_name and details and amount:
                 # LOCK DATA INTO VAULT
                 st.session_state.vault = {
@@ -207,11 +202,11 @@ if not st.session_state.paid:
         
         st.markdown("---")
         st.markdown("### 💎 Unlock Document Package")
-        v_code = st.text_input("Enter Voucher / Admin Code", type="password", key="vouch_v36")
+        v_code = st.text_input("Enter Voucher / Admin Code", type="password", key="vouch_v38")
         
         c_unlock, c_pay = st.columns(2)
         with c_unlock:
-            if st.button("AUTHENTICATE VOUCHER", key="auth_v36"):
+            if st.button("AUTHENTICATE VOUCHER", key="auth_v38"):
                 if v_code == "TS-GIFT-2026":
                     st.session_state.paid = True
                     st.rerun()
@@ -239,34 +234,78 @@ else:
         p5 = f"LEGAL DEMAND:\nDemand is hereby made for the immediate payment of {v['cur']}{v['amt']}. This payment must be received in full within fourteen (14) calendar days of the date of this notice."
         p6 = f"INTENT TO LITIGATE:\nFailure to comply with this final demand will result in the immediate commencement of legal proceedings in Small Claims Court without further notice. We will pursue the recovery of the debt, statutory interest at the prescribed rate, and all associated legal costs."
 
-        # THE FINAL STATIONERY
+        # THE FINAL STATIONERY (Visual Preview)
         st.markdown(f"""
             <div class="legal-paper">
                 <div class="doc-header">
-                    <div><b>FROM:</b><br>{v['cl']}<br>{v['cla'].replace('\n','<br>')}</div>
-                    <div style="text-align:right;"><b>DATE:</b><br>{date_now}</div>
+                    <div style="color:#000;"><b>FROM:</b><br>{v['cl']}<br>{v['cla'].replace('\n','<br>')}</div>
+                    <div style="text-align:right; color:#000;"><b>DATE:</b><br>{date_now}</div>
                 </div>
-                <div><b>TO:</b><br>{v['res']}<br>{v['resa'].replace('\n','<br>')}</div>
+                <div style="color:#000;"><b>TO:</b><br>{v['res']}<br>{v['resa'].replace('\n','<br>')}</div>
                 <br><br>
-                <div style="text-align:center; text-decoration:underline; font-size: 20px;"><b>FORMAL LETTER OF DEMAND - PRE-LITIGATION NOTICE</b></div>
+                <div style="text-align:center; text-decoration:underline; font-size: 20px; color:#000;"><b>FORMAL LETTER OF DEMAND - PRE-LITIGATION NOTICE</b></div>
                 <br>
-                <p><b>RE: {p1}</b></p>
-                <p>{p2}</p>
-                <p style="white-space: pre-wrap;">{p3}</p>
-                <p style="white-space: pre-wrap;">{p4}</p>
-                <p style="background-color: #f9f9f9; padding: 15px; border-left: 5px solid #000;">{p5}</p>
-                <p>{p6}</p>
-                <br><p>Sincerely,</p>
+                <p style="color:#000;"><b>RE: {p1}</b></p>
+                <p style="color:#000;">{p2}</p>
+                <p style="white-space: pre-wrap; color:#000;"><b>{p3}</b></p>
+                <p style="white-space: pre-wrap; color:#000;">{p4}</p>
+                <p style="background-color: #f9f9f9; padding: 15px; border-left: 5px solid #000; color:#000;">{p5}</p>
+                <p style="color:#000;">{p6}</p>
+                <br><p style="color:#000;">Sincerely,</p>
                 <div class="sig-line"></div>
-                <p><b>{v['cl']}</b><br>Claimant</p>
+                <p style="color:#000;"><b>{v['cl']}</b><br>Claimant</p>
                 <br><p style="font-size: 10px; color: #888;">DOCUMENT ID: TS-EXEC-{int(time.time())}</p>
             </div>
         """, unsafe_allow_html=True)
         
-        full_dl = f"FROM: {v['cl']}\nDATE: {date_now}\nTO: {v['res']}\n\n{p1}\n\n{p2}\n\n{p3}\n\n{p4}\n\n{p5}\n\n{p6}"
-        st.download_button("📥 DOWNLOAD OFFICIAL WORD DOC", full_dl, file_name="JusticeBot_Formal_Demand.doc", key="dl_v36")
-        if st.button("INITIATE NEW CASE", key="new_v36"):
+        # INDUSTRIAL-STRENGTH WORD EXPORT (HTML with Table and Borders)
+        word_html = f"""
+        <html>
+        <head>
+        <meta charset='utf-8'>
+        <style>
+            body {{ font-family: 'Times New Roman', Times, serif; padding: 1in; background-color: white; color: black; }}
+            .border-box {{ border: 3px double #000; padding: 0.5in; min-height: 9.5in; }}
+            .header-table {{ width: 100%; border-bottom: 2px solid #000; margin-bottom: 20px; }}
+            .content {{ line-height: 1.5; font-size: 12pt; }}
+            .subject {{ text-align: center; text-decoration: underline; font-weight: bold; margin: 20px 0; }}
+            .sig-line {{ border-top: 1px solid #000; width: 250px; margin-top: 40px; }}
+        </style>
+        </head>
+        <body>
+            <div class="border-box">
+                <table class="header-table">
+                    <tr>
+                        <td align="left" valign="top"><b>FROM:</b><br>{v['cl']}<br>{v['cla'].replace('\n','<br>')}</td>
+                        <td align="right" valign="top"><b>DATE:</b><br>{date_now}</td>
+                    </tr>
+                </table>
+                <div class="content">
+                    <b>TO:</b><br>{v['res']}<br>{v['resa'].replace('\n','<br>')}
+                    <div class="subject">FORMAL LETTER OF DEMAND - PRE-LITIGATION NOTICE</div>
+                    <b>RE: {p1}</b><br><br>
+                    <p>{p2}</p>
+                    <p><b>{p3.replace('\n','<br>')}</b></p>
+                    <p>{p4.replace('\n','<br>')}</p>
+                    <p style="background-color:#eee; padding:10px;">{p5}</p>
+                    <p>{p6}</p>
+                    <br><br>
+                    <p>Sincerely,</p>
+                    <div class="sig-line"></div>
+                    <b>{v['cl']}</b><br>Claimant
+                </div>
+            </div>
+        </body>
+        </html>
+        """
+        
+        full_raw_text = f"FROM: {v['cl']}\nDATE: {date_now}\nTO: {v['res']}\n\nRE: {p1}\n\n{p2}\n\n{p3}\n\n{p4}\n\n{p5}\n\n{p6}\n\nSincerely,\n{v['cl']}"
+        
+        st.download_button("📥 DOWNLOAD OFFICIAL WORD DOC (.DOC)", word_html, file_name="JusticeBot_Official_Demand.doc", key="dl_word_v38")
+        st.download_button("📥 DOWNLOAD PLAIN TEXT (.TXT)", full_raw_text, file_name="JusticeBot_Formal_Demand.txt", key="dl_txt_v38")
+        
+        if st.button("INITIATE NEW CASE", key="new_v38"):
             st.session_state.paid = False; st.session_state.ready = False; st.session_state.vault = {}; st.rerun()
 
 st.divider()
-st.caption("Shadow-Build Global Engine v1.36 | Trend Shadows Digital Agency")
+st.caption("Shadow-Build Global Engine v1.38 | Trend Shadows Digital Agency")
