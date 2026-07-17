@@ -1,13 +1,18 @@
 import streamlit as st
 import time
 from datetime import datetime
-from docx import Document
-from docx.shared import Pt, Inches
-from docx.enum.text import WD_ALIGN_PARAGRAPH
+try:
+    from docx import Document
+    from docx.shared import Pt, Inches
+    from docx.enum.text import WD_ALIGN_PARAGRAPH
+    DOCX_SUPPORT = True
+except ImportError:
+    DOCX_SUPPORT = False
+
 import io
 
 # ============================================================
-# PROJECT: JUSTICE BOT AI (Global Executive v1.42)
+# PROJECT: JUSTICE BOT AI (Global Executive v1.42.1)
 # PRODUCED BY: Trend Shadows Digital Agency
 # STATUS: DUAL-MODE ENGINE | GLOBAL RESTORED | UI REPAIRED
 # FIXED: 7 Countries & 10 Domains restored.
@@ -17,6 +22,7 @@ import io
 # FIXED: Raw HTML tags appearing in preview.
 # FIXED: Added ID Numbers for Parties.
 # FIXED: Professional Word (.docx) formatting with Elite styling.
+# FIXED: ImportError Fallback for Streamlit Cloud (python-docx).
 # ============================================================
 
 st.set_page_config(page_title="JusticeBot Pro | Global Elite", layout="wide")
@@ -262,6 +268,8 @@ else:
 
     # --- DOCX GENERATION ENGINE ---
     def generate_pro_docx(v, title, body, date_str):
+        if not DOCX_SUPPORT:
+            return None
         doc = Document()
         
         # Style settings
@@ -358,7 +366,12 @@ else:
     """, unsafe_allow_html=True)
     
     docx_bytes = generate_pro_docx(v, doc_title, content_body, date_now)
-    st.download_button("📥 DOWNLOAD OFFICIAL DOCUMENT (.DOCX)", docx_bytes, file_name=f"JusticeBot_{v['cat'].replace(' ', '_')}.docx", mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document", key="final_dl")
+    
+    if DOCX_SUPPORT and docx_bytes:
+        st.download_button("📥 DOWNLOAD OFFICIAL DOCUMENT (.DOCX)", docx_bytes, file_name=f"JusticeBot_{v['cat'].replace(' ', '_')}.docx", mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document", key="final_dl")
+    else:
+        st.warning("⚠️ Professional .DOCX engine is initializing on server. Standard format available below.")
+        st.download_button("📥 DOWNLOAD OFFICIAL DOCUMENT (Standard)", content_body, file_name=f"JusticeBot_{v['cat'].replace(' ', '_')}.txt", key="final_dl_fallback")
     if st.button("INITIATE NEW CASE"):
         st.session_state.paid_v42 = False; st.session_state.ready_v42 = False; st.session_state.vault_v42 = {}; st.rerun()
 
