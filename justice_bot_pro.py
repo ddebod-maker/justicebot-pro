@@ -12,7 +12,7 @@ except ImportError:
 import io
 
 # ============================================================
-# PROJECT: JUSTICE BOT AI (Global Executive v1.42.1)
+# PROJECT: JUSTICE BOT AI (Global Executive v1.43 ELITE)
 # PRODUCED BY: Trend Shadows Digital Agency
 # STATUS: DUAL-MODE ENGINE | GLOBAL RESTORED | UI REPAIRED
 # FIXED: 7 Countries & 10 Domains restored.
@@ -426,4 +426,4 @@ else:
         st.session_state.paid_v42 = False; st.session_state.ready_v42 = False; st.session_state.vault_v42 = {}; st.rerun()
 
 st.divider()
-st.caption("Shadow-Build Global Engine v1.42 | Trend Shadows Digital Agency")
+st.caption("Shadow-Build Global Engine v1.43 ELITE | Trend Shadows Digital Agency")
