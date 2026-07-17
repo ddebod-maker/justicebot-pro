@@ -18,13 +18,13 @@ except ImportError:
     DOCX_SUPPORT = False
 
 # ============================================================
-# PROJECT: JUSTICE BOT AI (Global Executive v1.43.1 ELITE)
+# PROJECT: JUSTICE BOT AI (Global Executive v1.43.2 ELITE)
 # PRODUCED BY: Trend Shadows Digital Agency
 # STATUS: DUAL-MODE ENGINE | GLOBAL RESTORED | UI REPAIRED
-# FIXED: 7 Countries & 10 Domains restored.
-# FIXED: Professional Word (.docx) formatting with Elite styling.
-# FIXED: Resolved "&amp;" character escaping in preview.
-# FIXED: Forced Environment Re-sync for python-docx.
+# FIXED: Missing middle text in preview (HTML Sanitization).
+# FIXED: Resolved "&" escaping issues.
+# FIXED: Forced visibility of all document sections.
+# FIXED: Enhanced "Word Engine" installation feedback.
 # ============================================================
 
 st.set_page_config(page_title="JusticeBot Pro | Global Elite", layout="wide")
@@ -370,7 +370,16 @@ else:
         target = io.BytesIO(); doc.save(target); return target.getvalue()
 
     # Sleek Stationer Rendering (HTML)
-    # Use unescaped content for the preview to avoid &amp; issues
+    # We build the body line by line to ensure no clipping or character breaks
+    body_html = ""
+    for line in content_body.split('\n'):
+        if not line.strip():
+            body_html += "<br>"
+        elif ":" in line and len(line) < 45 and (line.isupper() or line.endswith(':')):
+            body_html += f"<b style='text-decoration: underline;'>{line}</b><br>"
+        else:
+            body_html += f"<span>{line}</span><br>"
+
     st.markdown(f"""
         <div class="legal-paper">
             <div class="preview-header">
@@ -380,35 +389,43 @@ else:
                     <div class="sub">JUSTICE BOT PRO GLOBAL</div>
                 </div>
             </div>
+            
             <div class="party-block">
-                <div class="party-cell">
-                    <b>FROM (CLAIMANT/SELLER):</b><br>
+                <div class="party-cell" style="color: #000;">
+                    <b style="color: #000;">FROM (CLAIMANT/SELLER):</b><br>
                     {v['cl']}<br>
                     ID: {cl_id_clean if cl_id_clean else 'N/A'}<br>
                     {v['cla'].replace('\n','<br>')}
                 </div>
-                <div class="party-cell" style="text-align:right;">
-                    <b>TO (RESPONDENT/BUYER):</b><br>
+                <div class="party-cell" style="text-align:right; color: #000;">
+                    <b style="color: #000;">TO (RESPONDENT/BUYER):</b><br>
                     {v['res']}<br>
                     ID: {res_id_clean if res_id_clean else 'N/A'}<br>
                     {v['resa'].replace('\n','<br>')}
                 </div>
             </div>
-            <div style="text-align:right; font-size: 12px; margin-bottom: 20px;"><b>DATE:</b> {date_now}</div>
-            <div class="doc-title">{doc_title}</div>
-            <div style="font-size: 14px; text-align: justify; color: #000; font-family: 'Times New Roman', serif; white-space: pre-wrap;">{content_body}</div>
+            
+            <div style="text-align:right; font-size: 12px; margin-bottom: 20px; color: #000;"><b>DATE:</b> {date_now}</div>
+            
+            <div class="doc-title" style="color: #000;">{doc_title}</div>
+            
+            <div style="font-size: 14px; text-align: justify; color: #000 !important; font-family: 'Times New Roman', serif; line-height: 1.6;">
+                {body_html}
+            </div>
+            
             <div class="sig-section">
-                <div class="sig-box">
+                <div class="sig-box" style="color: #000; border-top: 2px solid #000;">
                     __________________________<br>
-                    <b>FOR THE SELLER / CLAIMANT</b><br>
+                    <b style="color: #000;">FOR THE SELLER / CLAIMANT</b><br>
                     Name: {v['cl']}
                 </div>
-                <div class="sig-box">
+                <div class="sig-box" style="text-align:right; color: #000; border-top: 2px solid #000;">
                     __________________________<br>
-                    <b>FOR THE BUYER / RESPONDENT</b><br>
+                    <b style="color: #000;">FOR THE BUYER / RESPONDENT</b><br>
                     Name: {v['res']}
                 </div>
             </div>
+            
             <div style="margin-top: 50px; border-top: 1px solid #eee; padding-top: 10px; font-size: 10px; text-align: center; color: #888; font-style: italic;">
                 This document is a legally binding instrument generated via Trend Shadows JusticeBot Pro Global. (c) 2026.
             </div>
