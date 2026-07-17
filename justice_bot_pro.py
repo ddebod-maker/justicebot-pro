@@ -1,6 +1,10 @@
 import streamlit as st
 import time
 from datetime import datetime
+from docx import Document
+from docx.shared import Pt, Inches
+from docx.enum.text import WD_ALIGN_PARAGRAPH
+import io
 
 # ============================================================
 # PROJECT: JUSTICE BOT AI (Global Executive v1.42)
@@ -11,6 +15,8 @@ from datetime import datetime
 # FIXED: Context-aware fields (VIN/Reg for Vehicles).
 # FIXED: Voucher box restored to main screen.
 # FIXED: Raw HTML tags appearing in preview.
+# FIXED: Added ID Numbers for Parties.
+# FIXED: Professional Word (.docx) formatting with Elite styling.
 # ============================================================
 
 st.set_page_config(page_title="JusticeBot Pro | Global Elite", layout="wide")
@@ -177,10 +183,12 @@ if not st.session_state.paid_v42:
         c1, c2 = st.columns(2)
         with c1:
             cl_name = st.text_input("Claimant Full Name (You)", key="cl_in")
+            cl_id = st.text_input("Claimant ID Number / Passport", key="cl_id_in")
             cl_addr = st.text_area("Claimant Physical Address", height=80, key="cla_in")
             juris = st.selectbox("Select Jurisdiction", list(STATUTES.keys()), key="ju_in")
         with c2:
             res_name = st.text_input("Respondent Name (Target)", key="re_in")
+            res_id = st.text_input("Respondent ID Number (If known)", key="res_id_in")
             res_addr = st.text_area("Respondent Physical Address", height=80, key="resa_in")
             curr = st.selectbox("Select Currency", CURRENCIES, key="cu_in")
             
@@ -203,7 +211,8 @@ if not st.session_state.paid_v42:
         if st.button("PROCESS OFFICIAL DOCUMENT", key="main_btn"):
             if cl_name and res_name and details and amount:
                 st.session_state.vault_v42 = {
-                    "cl": cl_name, "cla": cl_addr, "res": res_name, "resa": res_addr,
+                    "cl": cl_name, "cl_id": cl_id, "cla": cl_addr, 
+                    "res": res_name, "res_id": res_id, "resa": res_addr,
                     "amt": amount, "det": details, "jur": juris, "cat": category,
                     "ref": ref_combined, "cur": curr.split(' ')[1]
                 }
@@ -243,19 +252,101 @@ else:
     
     if doc_mode == "DEMAND":
         doc_title = "FORMAL LETTER OF DEMAND - PRE-LITIGATION NOTICE"
-        content_body = f"Notice is hereby given that your failure to remit the balance of {v['cur']}{v['amt']} regarding the {v['cat'].lower()} constitutes a direct violation of {law}.\n\nUnder the laws of {v['jur']}, the withholding of these funds is a breach of legal obligations.\n\nSTATEMENT OF FACTS:\n{v['det']}\n\nLEGAL DEMAND:\nDemand is hereby made for the immediate payment of the full balance. This must be received in full within 14 calendar days of the date of this notice.\n\nINTENT TO LITIGATE:\nFailure to comply with this final demand will result in the immediate commencement of legal proceedings in Small Claims Court without further notice."
+        res_id_str = f" (ID: {v.get('res_id', '')})" if v.get('res_id') else ""
+        content_body = f"TO: {v['res']}{res_id_str}\n\nNotice is hereby given that your failure to remit the balance of {v['cur']}{v['amt']} regarding the {v['cat'].lower()} constitutes a direct violation of {law}.\n\nUnder the laws of {v['jur']}, the withholding of these funds is a breach of legal obligations.\n\nSTATEMENT OF FACTS:\n{v['det']}\n\nLEGAL DEMAND:\nDemand is hereby made for the immediate payment of the full balance. This must be received in full within 14 calendar days of the date of this notice.\n\nINTENT TO LITIGATE:\nFailure to comply with this final demand will result in the immediate commencement of legal proceedings in Small Claims Court without further notice."
     else:
         doc_title = "PRIVATE SALE & PURCHASE AGREEMENT"
-        content_body = f"This Agreement is made on {date_now} between {v['cl']} (Seller) and {v['res']} (Buyer).\n\nASSET DESCRIPTION:\n{v['cat']} - {v['ref']}\n\nNARRATIVE & CONDITION:\n{v['det']}\n\nPURCHASE PRICE:\nThe agreed sale price is {v['cur']}{v['amt']}, payable in full before the transfer of ownership.\n\nLEGAL TERMS:\nThis sale is conducted under the {law}. The asset is sold in its current condition (As-Is/Voetstoots), and the Seller provides no warranties. The Buyer acknowledges they have inspected the asset and accept it in its current state."
+        cl_id_str = f" (ID: {v.get('cl_id', '')})" if v.get('cl_id') else ""
+        res_id_str = f" (ID: {v.get('res_id', '')})" if v.get('res_id') else ""
+        content_body = f"This Agreement is made on {date_now} between {v['cl']}{cl_id_str} (Seller) and {v['res']}{res_id_str} (Buyer).\n\nASSET DESCRIPTION:\n{v['cat']} - {v['ref']}\n\nNARRATIVE & CONDITION:\n{v['det']}\n\nPURCHASE PRICE:\nThe agreed sale price is {v['cur']}{v['amt']}, payable in full before the transfer of ownership.\n\nLEGAL TERMS:\nThis sale is conducted under the {law}. The asset is sold in its current condition (As-Is/Voetstoots), and the Seller provides no warranties. The Buyer acknowledges they have inspected the asset and accept it in its current state."
+
+    # --- DOCX GENERATION ENGINE ---
+    def generate_pro_docx(v, title, body, date_str):
+        doc = Document()
+        
+        # Style settings
+        style = doc.styles['Normal']
+        font = style.font
+        font.name = 'Times New Roman'
+        font.size = Pt(11)
+        
+        # Branding Header
+        header = doc.sections[0].header
+        htable = header.add_table(1, 2, width=Inches(6))
+        htable.columns[0].width = Inches(4)
+        htable.columns[1].width = Inches(2)
+        h_run = htable.cell(0, 1).paragraphs[0].add_run("TS")
+        h_run.bold = True
+        h_run.font.size = Pt(24)
+        h_run.font.name = 'Arial Black' # Industrial look
+        htable.cell(0, 1).paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.RIGHT
+        
+        # Addresses
+        p1 = doc.add_paragraph()
+        p1.add_run("FROM:").bold = True
+        p1.add_run(f"\n{v.get('cl', '')}")
+        if v.get('cl_id'): p1.add_run(f"\nID: {v['cl_id']}")
+        p1.add_run(f"\n{v.get('cla', '')}")
+        
+        p2 = doc.add_paragraph()
+        p2.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+        p2.add_run("DATE:").bold = True
+        p2.add_run(f"\n{date_str}")
+        
+        p3 = doc.add_paragraph()
+        p3.add_run("TO:").bold = True
+        p3.add_run(f"\n{v.get('res', '')}")
+        if v.get('res_id'): p3.add_run(f"\nID: {v['res_id']}")
+        p3.add_run(f"\n{v.get('resa', '')}")
+        
+        doc.add_paragraph("\n")
+        
+        # Title
+        t = doc.add_paragraph()
+        t.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        tr = t.add_run(title)
+        tr.bold = True
+        tr.underline = True
+        tr.font.size = Pt(14)
+        
+        doc.add_paragraph("\n")
+        
+        # Content
+        for line in body.split('\n'):
+            line = line.strip()
+            if not line:
+                doc.add_paragraph("")
+                continue
+            if ":" in line and len(line) < 40 and (line.isupper() or line.endswith(':')):
+                p = doc.add_paragraph()
+                p.add_run(line).bold = True
+            else:
+                p = doc.add_paragraph(line)
+                p.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+            
+        doc.add_paragraph("\nSincerely,")
+        doc.add_paragraph("\n__________________________")
+        doc.add_paragraph(f"Authorized Signature\n{v.get('cl', '')}")
+        
+        # Footer
+        footer = doc.sections[0].footer
+        fp = footer.paragraphs[0]
+        fp.text = "Generated by JusticeBot Pro | Trend Shadows Digital Agency"
+        fp.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        fp.style.font.size = Pt(8)
+        
+        target = io.BytesIO()
+        doc.save(target)
+        return target.getvalue()
 
     # Stationer Rendering
     st.markdown(f"""
         <div class="legal-paper">
             <div class="doc-header">
-                <div><b>FROM:</b><br>{v['cl']}<br>{v['cla'].replace('\n','<br>')}</div>
+                <div><b>FROM:</b><br>{v['cl']}{'<br>ID: '+v.get('cl_id','') if v.get('cl_id') else ''}<br>{v['cla'].replace('\n','<br>')}</div>
                 <div style="text-align:right;"><b>DATE:</b><br>{date_now}</div>
             </div>
-            <div><b>TO:</b><br>{v['res']}<br>{v['resa'].replace('\n','<br>')}</div>
+            <div><b>TO:</b><br>{v['res']}{'<br>ID: '+v.get('res_id','') if v.get('res_id') else ''}<br>{v['resa'].replace('\n','<br>')}</div>
             <br><br>
             <div style="text-align:center; text-decoration:underline; font-size: 22px;"><b>{doc_title}</b></div>
             <br>
@@ -266,7 +357,8 @@ else:
         </div>
     """, unsafe_allow_html=True)
     
-    st.download_button("📥 DOWNLOAD OFFICIAL DOCUMENT", content_body, file_name="JusticeBot_Final.doc", key="final_dl")
+    docx_bytes = generate_pro_docx(v, doc_title, content_body, date_now)
+    st.download_button("📥 DOWNLOAD OFFICIAL DOCUMENT (.DOCX)", docx_bytes, file_name=f"JusticeBot_{v['cat'].replace(' ', '_')}.docx", mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document", key="final_dl")
     if st.button("INITIATE NEW CASE"):
         st.session_state.paid_v42 = False; st.session_state.ready_v42 = False; st.session_state.vault_v42 = {}; st.rerun()
 
