@@ -265,23 +265,31 @@ else:
     doc_mode = config['type']
     date_now = datetime.now().strftime("%B %d, %Y")
     
+    # Clean ID logic to prevent "ID: ID:"
+    def clean_id(val):
+        if not val: return ""
+        return val.upper().replace('ID:', '').replace('ID', '').strip()
+
+    cl_id_clean = clean_id(v.get('cl_id', ''))
+    res_id_clean = clean_id(v.get('res_id', ''))
+
     if doc_mode == "DEMAND":
         doc_title = "FORMAL LETTER OF DEMAND - PRE-LITIGATION NOTICE"
-        res_id_str = f" (ID: {v.get('res_id', '')})" if v.get('res_id') else ""
-        content_body = f"TO: {v['res']}{res_id_str}\n\nNotice is hereby given that your failure to remit the balance of {v['cur']}{v['amt']} regarding the {v['cat'].lower()} constitutes a direct violation of {law}.\n\nUnder the laws of {v['jur']}, the withholding of these funds is a breach of legal obligations.\n\nSTATEMENT OF FACTS:\n{v['det']}\n\nLEGAL DEMAND:\nDemand is hereby made for the immediate payment of the full balance. This must be received in full within 14 calendar days of the date of this notice.\n\nINTENT TO LITIGATE:\nFailure to comply with this final demand will result in the immediate commencement of legal proceedings in Small Claims Court without further notice."
+        res_id_tag = f" (ID: {res_id_clean})" if res_id_clean else ""
+        content_body = f"TO: {v['res']}{res_id_tag}\n\nNotice is hereby given that your failure to remit the balance of {v['cur']}{v['amt']} regarding the {v['cat'].lower()} constitutes a direct violation of {law}.\n\nUnder the laws of {v['jur']}, the withholding of these funds is a breach of legal obligations.\n\nSTATEMENT OF FACTS:\n{v['det']}\n\nLEGAL DEMAND:\nDemand is hereby made for the immediate payment of the full balance. This must be received in full within 14 calendar days of the date of this notice.\n\nINTENT TO LITIGATE:\nFailure to comply with this final demand will result in the immediate commencement of legal proceedings in Small Claims Court without further notice."
     else:
         doc_title = "PRIVATE SALE & PURCHASE AGREEMENT"
-        cl_id_str = f" (ID: {v.get('cl_id', '')})" if v.get('cl_id') else ""
-        res_id_str = f" (ID: {v.get('res_id', '')})" if v.get('res_id') else ""
-        content_body = f"This Agreement is made on {date_now} between {v['cl']}{cl_id_str} (Seller) and {v['res']}{res_id_str} (Buyer).\n\nASSET DESCRIPTION:\n{v['cat']} - {v['ref']}\n\nNARRATIVE & CONDITION:\n{v['det']}\n\nPURCHASE PRICE:\nThe agreed sale price is {v['cur']}{v['amt']}, payable in full before the transfer of ownership.\n\nLEGAL TERMS:\nThis sale is conducted under the {law}. The asset is sold in its current condition (As-Is/Voetstoots), and the Seller provides no warranties. The Buyer acknowledges they have inspected the asset and accept it in its current state."
+        cl_id_tag = f" (ID: {cl_id_clean})" if cl_id_clean else ""
+        res_id_tag = f" (ID: {res_id_clean})" if res_id_clean else ""
+        content_body = f"This Agreement is made on {date_now} between {v['cl']}{cl_id_tag} (Seller) and {v['res']}{res_id_tag} (Buyer).\n\nASSET DESCRIPTION:\n{v['cat']} - {v['ref']}\n\nNARRATIVE & CONDITION:\n{v['det']}\n\nPURCHASE PRICE:\nThe agreed sale price is {v['cur']}{v['amt']}, payable in full before the transfer of ownership.\n\nLEGAL TERMS:\nThis sale is conducted under the {law}. The asset is sold in its current condition (As-Is/Voetstoots), and the Seller provides no warranties. The Buyer acknowledges they have inspected the asset and accept it in its current state."
 
     # --- DOCX GENERATION ENGINE ---
-    def generate_pro_docx(v, title, body, date_str):
+    def generate_pro_docx(v, title, body, date_str, cl_id, res_id):
         if not DOCX_SUPPORT:
             return None
         doc = Document()
         
-        # Style settings
+        # Global Style
         style = doc.styles['Normal']
         font = style.font
         font.name = 'Times New Roman'
@@ -302,7 +310,7 @@ else:
         hr.font.name = 'Arial'
         hp2 = h_cell.add_paragraph()
         hp2.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-        hr2 = hp2.add_run("JUSTICE BOT PRO")
+        hr2 = hp2.add_run("JUSTICE BOT PRO GLOBAL")
         hr2.font.size = Pt(8)
         hr2.font.name = 'Arial'
         hr2.italic = True
@@ -314,11 +322,11 @@ else:
         table.columns[1].width = Inches(3.25)
         c1 = table.cell(0, 0); cp1 = c1.paragraphs[0]
         cp1.add_run("FROM (CLAIMANT/SELLER):").bold = True
-        cp1.add_run(f"\n{v.get('cl', '')}\nID: {v.get('cl_id', 'N/A')}\n{v.get('cla', '')}")
+        cp1.add_run(f"\n{v.get('cl', '')}\nID: {cl_id if cl_id else 'N/A'}\n{v.get('cla', '')}")
         c2 = table.cell(0, 1); cp2 = c2.paragraphs[0]
         cp2.alignment = WD_ALIGN_PARAGRAPH.RIGHT
         cp2.add_run("TO (RESPONDENT/BUYER):").bold = True
-        cp2.add_run(f"\n{v.get('res', '')}\nID: {v.get('res_id', 'N/A')}\n{v.get('resa', '')}")
+        cp2.add_run(f"\n{v.get('res', '')}\nID: {res_id if res_id else 'N/A'}\n{v.get('resa', '')}")
 
         doc.add_paragraph("\n")
         dr = doc.add_paragraph()
@@ -361,6 +369,7 @@ else:
         target = io.BytesIO(); doc.save(target); return target.getvalue()
 
     # Sleek Stationer Rendering (HTML)
+    content_body_html = content_body.replace('\n', '<br>')
     st.markdown(f"""
         <div class="legal-paper">
             <div class="preview-header">
@@ -374,19 +383,21 @@ else:
                 <div class="party-cell">
                     <b>FROM (CLAIMANT/SELLER):</b><br>
                     {v['cl']}<br>
-                    ID: {v.get('cl_id', 'N/A')}<br>
+                    ID: {cl_id_clean if cl_id_clean else 'N/A'}<br>
                     {v['cla'].replace('\n','<br>')}
                 </div>
                 <div class="party-cell" style="text-align:right;">
                     <b>TO (RESPONDENT/BUYER):</b><br>
                     {v['res']}<br>
-                    ID: {v.get('res_id', 'N/A')}<br>
+                    ID: {res_id_clean if res_id_clean else 'N/A'}<br>
                     {v['resa'].replace('\n','<br>')}
                 </div>
             </div>
             <div style="text-align:right; font-size: 12px; margin-bottom: 20px;"><b>DATE:</b> {date_now}</div>
             <div class="doc-title">{doc_title}</div>
-            <div style="white-space: pre-wrap; font-size: 14px; text-align: justify;">{content_body}</div>
+            <div style="font-size: 14px; text-align: justify; color: #000; font-family: 'Times New Roman', serif;">
+                {content_body_html}
+            </div>
             <div class="sig-section">
                 <div class="sig-box">
                     __________________________<br>
@@ -405,13 +416,14 @@ else:
         </div>
     """, unsafe_allow_html=True)
     
-    docx_bytes = generate_pro_docx(v, doc_title, content_body, date_now)
+    docx_bytes = generate_pro_docx(v, doc_title, content_body, date_now, cl_id_clean, res_id_clean)
     
     if DOCX_SUPPORT and docx_bytes:
         st.download_button("📥 DOWNLOAD OFFICIAL WORD DOCUMENT (.DOCX)", docx_bytes, file_name=f"JusticeBot_{v['cat'].replace(' ', '_')}.docx", mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document", key="final_dl")
     else:
-        st.warning("🚨 ATTENTION: Professional Word Engine is installing on server. This takes 60 seconds on first run. Please refresh in a moment for the ELITE format.")
-        st.download_button("📥 DOWNLOAD TEMPORARY DOCUMENT (NOTEPAD)", content_body, file_name=f"JusticeBot_{v['cat'].replace(' ', '_')}.txt", key="final_dl_fallback")
+        st.error("🚨 CRITICAL: The Professional Word Engine (.DOCX) is still being deployed to the server.")
+        st.info("Streamlit Cloud needs 1-2 minutes to install the new Elite formatting tools. Please **Wait 60 seconds** and then **REFRESH YOUR BROWSER**.")
+        st.download_button("⚠️ DOWNLOAD PLAIN-TEXT FALLBACK", content_body, file_name=f"JusticeBot_Backup.txt", key="final_dl_fallback")
     if st.button("INITIATE NEW CASE"):
         st.session_state.paid_v42 = False; st.session_state.ready_v42 = False; st.session_state.vault_v42 = {}; st.rerun()
 
