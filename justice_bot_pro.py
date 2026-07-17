@@ -3,35 +3,31 @@ import time
 from datetime import datetime
 
 # ============================================================
-# PROJECT: JUSTICE BOT AI (Global Executive v1.32)
+# PROJECT: JUSTICE BOT AI (Global Executive v1.33)
 # PRODUCED BY: Trend Shadows Digital Agency
-# STATUS: ULTIMATE INDUSTRIAL STABILITY | 10 DOMAINS | 7 JURISDICTIONS
-# FIXED: Missing Body/Jargon logic.
-# FIXED: Forced High-Contrast Visibility.
+# STATUS: 10-DOMAIN ENGINE | DATA VAULT FIXED | LAYOUT RESTORED
 # ============================================================
 
 st.set_page_config(page_title="JusticeBot Pro | Global Elite", layout="wide")
 
-# --- VERSION VERIFICATION (Sidebar) ---
+# --- VERSION STAMP (Sidebar) ---
 st.sidebar.markdown("### 🛠️ System Control")
-st.sidebar.markdown("`VERSION: v1.32` (STABLE)")
+st.sidebar.markdown(f"`VERSION: v1.33` (STABLE)")
 st.sidebar.markdown(f"`BUILD DATE: {datetime.now().strftime('%Y-%m-%d')}`")
 st.sidebar.markdown("---")
-# Voucher is always active for owner testing
-owner_code = st.sidebar.text_input("Owner Access Code", type="password", help="Use TS-GIFT-2026 to bypass payment.")
 
 # --- MASTER CSS (Visibility & Industrial Finish) ---
 st.markdown("""
     <style>
     .stApp { background-color: #000000 !important; }
     
-    /* 1. SELECTION BOX VISIBILITY - ABSOLUTE BLACK ON SILVER */
+    /* 1. SELECTION BOX VISIBILITY - FORCED BLACK ON SILVER */
     div[data-testid="stSelectbox"] > div {
-        background-color: #C0C0C0 !important;
+        background-color: #C0C0C0 !important; color: #000000 !important;
         border: 2px solid #FFFFFF !important;
-        color: #000000 !important;
+        border-radius: 4px !important;
     }
-    div[data-testid="stSelectbox"] p { color: #000000 !important; font-weight: 800 !important; }
+    div[data-testid="stSelectbox"] * { color: #000000 !important; font-weight: 800 !important; }
 
     /* 2. LABELS & HEADINGS */
     h1 { color: #FFFFFF !important; font-family: 'serif'; font-weight: 900 !important; font-size: 3.5rem !important; text-align: center; }
@@ -42,9 +38,10 @@ st.markdown("""
         background-color: #111111 !important;
         color: #FFFFFF !important;
         border: 1px solid #C0C0C0 !important;
+        font-size: 16px !important;
     }
 
-    /* 4. BUTTONS: Industrial Silver */
+    /* 4. BUTTONS: Solid Industrial Silver */
     button, .stButton>button, .stDownloadButton>button {
         background-color: #C0C0C0 !important;
         color: #000000 !important;
@@ -52,6 +49,7 @@ st.markdown("""
         text-transform: uppercase !important;
         border: 2px solid #FFFFFF !important;
         height: 3.5em !important;
+        width: 100% !important;
     }
     button:hover { background-color: #FFFFFF !important; box-shadow: 0 0 20px rgba(255, 255, 255, 0.5) !important; }
 
@@ -68,18 +66,14 @@ st.markdown("""
         text-align: left !important;
         box-shadow: 0 0 60px rgba(255, 255, 255, 0.1) !important;
     }
-    .legal-paper p, .legal-paper div, .legal-paper span, .legal-paper b { 
-        color: #000000 !important; 
-        font-family: 'Times New Roman', serif !important; 
-    }
-    .sig-block { margin-top: 60px; border-top: 2px solid #000; width: 300px; padding-top: 10px; }
+    .legal-paper * { color: #000000 !important; font-family: 'Times New Roman', serif !important; }
+    .sig-line { margin-top: 60px; border-top: 2px solid #000; width: 300px; padding-top: 10px; }
 
     .ts-logo { font-size: 32px; font-weight: 900; letter-spacing: 10px; color: #FFFFFF; text-align: right; margin-bottom: 20px; }
     </style>
     """, unsafe_allow_html=True)
 
 # --- THE 10-DOMAIN GLOBAL ENGINE ---
-# Hard-coded statutes for all 7 countries
 STATUTES = {
     "United States (US)": {
         "Security Deposit Recovery": "US Civil Code Section 1950.5",
@@ -108,7 +102,7 @@ STATUTES = {
     "South Africa (ZA)": {
         "Security Deposit Recovery": "Rental Housing Act 50 of 1999",
         "Unpaid Freelance Invoice": "Prescribed Rate of Interest Act 55 of 1975",
-        "Private Vehicle Sale": "Private Sale Agreement (Voetstoots)",
+        "Private Vehicle Sale": "Private Sale Agreement (Voetstoots Protocol)",
         "Electronics/Goods Sale": "Consumer Protection Act Section 55",
         "Travel/Flight Refund": "Consumer Protection Act Section 47",
         "Service Cancellation": "Consumer Protection Act Section 14",
@@ -163,103 +157,99 @@ STATUTES = {
         "Employment/Unpaid Wages": "Payment of Wages Act 1936",
         "Insurance Claim Dispute": "IRDAI Guidelines",
         "Property Damage Claim": "Tort of Negligence",
-        "General Cease & Desist": "IT Act 2000 / Defamation Laws"
+        "General Cease & Desist": "IT Act 2000"
     }
 }
 
 CURRENCIES = ["USD ($)", "GBP (£)", "ZAR (R)", "AUD ($)", "NZD ($)", "CAD ($)", "INR (₹)"]
 
-# --- PERSISTENT STORAGE ---
-if 'paid_v132' not in st.session_state: st.session_state.paid_v132 = False
-if 'ready_v132' not in st.session_state: st.session_state.ready_v132 = False
-if 'vault_v132' not in st.session_state: st.session_state.vault_v132 = {}
-
-# Check Voucher immediately
-if owner_code == "TS-GIFT-2026":
-    st.session_state.paid_v132 = True
+# --- PERSISTENT STORAGE VAULT ---
+if 'paid' not in st.session_state: st.session_state.paid = False
+if 'ready' not in st.session_state: st.session_state.ready = False
+if 'vault' not in st.session_state: st.session_state.vault = {}
 
 st.markdown('<div class="ts-logo">TS</div>', unsafe_allow_html=True)
 st.title("JusticeBot Pro Global")
 st.markdown("<p style='text-align:center; color:#888; letter-spacing:5px;'>CERTIFIED LEGAL RECOVERY TERMINAL</p>", unsafe_allow_html=True)
 st.divider()
 
-if not st.session_state.paid_v132:
+if not st.session_state.paid:
     with st.container():
         st.markdown("### 🏛️ Case Intelligence")
         c1, c2 = st.columns(2)
         with c1:
-            cl_name = st.text_input("Claimant Full Name (You)", key="cl_in")
-            juris = st.selectbox("Select Jurisdiction", list(STATUTES.keys()), key="ju_in")
+            cl_name = st.text_input("Claimant Full Name (You)", key="cl_v33")
+            juris = st.selectbox("Select Jurisdiction", list(STATUTES.keys()), key="jur_v33")
         with c2:
-            res_name = st.text_input("Respondent Name (Target)", key="re_in")
-            curr = st.selectbox("Select Currency", CURRENCIES, key="cu_in")
+            res_name = st.text_input("Respondent Name (Company or Person)", key="res_v33")
+            curr = st.selectbox("Select Currency", CURRENCIES, key="cur_v33")
             
-        st.divider()
-        # Restored category logic
-        cat_list = list(STATUTES[juris].keys())
-        category = st.selectbox("Select Case Category", cat_list, key="ca_in")
-        amount = st.text_input(f"Total Amount Owed ({curr.split(' ')[1]})", key="am_in")
-        details = st.text_area("Dispute Narrative (Facts & Dates)", height=150, key="de_in")
+        category = st.selectbox("Select Case Category", list(STATUTES[juris].keys()), key="cat_v33")
+        amount = st.text_input(f"Total Amount Owed ({curr.split(' ')[1]})", key="amt_v33")
+        details = st.text_area("Dispute Narrative (Names, Dates, Facts)", height=150, key="det_v33")
         
-        if st.button("PROCESS OFFICIAL LEGAL DEMAND", key="main_btn"):
+        if st.button("PROCESS OFFICIAL LEGAL DEMAND", key="btn_v33"):
             if cl_name and res_name and details and amount:
-                # SECURE VAULT - DO NOT LOSE THIS DATA
-                st.session_state.vault_v132 = {
-                    "cl": cl_name, "res": res_name, "amt": amount,
-                    "det": details, "jur": juris, "cat": category,
-                    "cur": curr.split(' ')[1]
+                # LOCK DATA INTO VAULT
+                st.session_state.vault = {
+                    "cl_name": cl_name, "res_name": res_name, "amount": amount,
+                    "details": details, "juris": juris, "category": category,
+                    "curr_sym": curr.split(' ')[1]
                 }
-                st.session_state.ready_v132 = True
-                st.success("Analysis Complete. Draft Generated.")
+                st.session_state.ready = True
+                st.success("Logic Analysis Complete. Draft Ready.")
 
-    if st.session_state.get("ready_v132"):
+    if st.session_state.ready:
         st.divider()
-        st.markdown(f"**PREVIEW: FORMAL NOTICE OF INTENT TO LITIGATE - {st.session_state.vault_v132['cat'].upper()}**")
-        st.markdown("""<div style="filter:blur(12px); background:#111; padding:20px; border:1px dashed #C0C0C0;">Notice is hereby given that your actions constitute a direct violation of the Governing Statutes for this jurisdiction...</div>""", unsafe_allow_html=True)
+        st.markdown(f"**SUBJECT: FINAL NOTICE OF INTENT TO LITIGATE - {st.session_state.vault['category'].upper()}**")
+        st.markdown("""<div style="filter:blur(10px); background:#111; padding:20px; border:1px dashed #C0C0C0;">Notice is hereby given that your actions constitute a direct violation of the Governing Statutes for this jurisdiction...</div>""", unsafe_allow_html=True)
         
-        st.link_button("💎 UNLOCK PRINT-READY DOCUMENT PACKAGE ($19.00)", "https://trend-shadows.lemonsqueezy.com/buy/1914602")
+        st.markdown("### 💎 Unlock Document Package")
+        v_code = st.text_input("Enter Voucher / Admin Code", type="password", key="vouch_v33")
+        
+        c_unlock, c_pay = st.columns(2)
+        with c_unlock:
+            if st.button("AUTHENTICATE VOUCHER", key="auth_v33"):
+                if v_code == "TS-GIFT-2026":
+                    st.session_state.paid = True
+                    st.rerun()
+                else:
+                    st.error("Invalid Voucher Code")
+        with c_pay:
+            st.link_button("💎 PAY TO UNLOCK ($19.00)", "https://trend-shadows.lemonsqueezy.com/buy/1914602")
 
 else:
-    # --- PRODUCTION OUTPUT (VERIFIED) ---
-    st.success("✅ TRANSACTION VERIFIED. TERMINAL UNLOCKED.")
-    v = st.session_state.vault_v132
-    if not v:
-        st.error("No case data found. Please go back and fill the form.")
-        if st.button("Back to Form"): st.session_state.paid_v132 = False; st.rerun()
-    else:
-        law = STATUTES[v['jur']].get(v['cat'], "Governing Statutes")
-        date_now = datetime.now().strftime("%B %d, %Y")
-        
-        # Concat the body for both screen and download
-        p1 = f"Notice is hereby given that your failure to remit the balance of {v['cur']}{v['amt']} regarding the {v['cat'].lower()} constitutes a direct violation of {law}."
-        p2 = f"Under the laws of {v['jur']}, specifically the statutes regarding {v['cat'].lower()}, the withholding of these funds is a breach of legal obligations."
-        p3 = f"STATEMENT OF FACTS:\n{v['det']}"
-        p4 = f"LEGAL DEMAND:\nDemand is hereby made for the immediate payment of the full balance. This must be received in full within 14 calendar days of the date of this notice.\n\nINTENT TO LITIGATE:\nFailure to comply with this final demand will result in the immediate commencement of legal proceedings in Small Claims Court without further notice."
+    # --- PRODUCTION OUTPUT ---
+    v = st.session_state.vault
+    st.success("AUTHENTICATION SUCCESSFUL. DOCUMENT UNLOCKED.")
+    law = STATUTES[v['juris']].get(v['category'])
+    date_now = datetime.now().strftime("%B %d, %Y")
+    
+    # 🛡️ THE FINAL UNIFIED BODY
+    jargon = f"Notice is hereby given that your failure to remit the balance of {v['curr_sym']}{v['amount']} regarding the {v['category'].lower()} constitutes a direct violation of {law}.\n\nUnder the laws of {v['juris']}, specifically regarding {v['category'].lower()}, the withholding of these funds is a breach of legal obligations."
+    statement = f"STATEMENT OF FACTS:\n{v['details']}"
+    demand = f"LEGAL DEMAND:\nDemand is hereby made for the immediate payment of the full balance. This must be received in full within 14 calendar days of the date of this notice.\n\nINTENT TO LITIGATE:\nFailure to comply with this final demand will result in the immediate commencement of legal proceedings in Small Claims Court without further notice."
 
-        # THE FINAL STATIONERY
-        st.markdown(f"""
-            <div class="legal-paper">
-                <div style="display:flex; justify-content:space-between;">
-                    <div><b>FROM:</b><br>{v['cl']}</div>
-                    <div style="text-align:right;"><b>DATE:</b><br>{date_now}</div>
-                </div>
-                <br><div><b>TO:</b><br>{v['res']}</div><br><br>
-                <div style="text-align:center; text-decoration:underline; font-size: 22px;"><b>FORMAL LETTER OF DEMAND</b></div><br>
-                <p>{p1}</p>
-                <p>{p2}</p>
-                <p style="white-space: pre-wrap;"><b>{p3}</b></p>
-                <p style="font-weight:bold; border: 1px solid #000; padding: 10px;">{p4}</p><br>
-                <p>Sincerely,</p>
-                <div class="sig-block"></div>
-                <p><b>{v['cl']}</b><br>Claimant</p>
+    st.markdown(f"""
+        <div class="legal-paper">
+            <div style="display:flex; justify-content:space-between; color:#000;">
+                <div><b>FROM:</b><br>{v['cl_name']}</div>
+                <div style="text-align:right;"><b>DATE:</b><br>{date_now}</div>
             </div>
-        """, unsafe_allow_html=True)
-        
-        full_dl = f"FROM: {v['cl']}\nDATE: {date_now}\nTO: {v['res']}\n\n{p1}\n\n{p2}\n\n{p3}\n\n{p4}"
-        st.download_button("📥 DOWNLOAD OFFICIAL WORD DOC", full_dl, file_name="Legal_Demand_Elite.doc")
-        
-        if st.button("INITIATE NEW CASE"):
-            st.session_state.paid_v132 = False; st.session_state.ready_v132 = False; st.session_state.vault_v132 = {}; st.rerun()
+            <br><div style="color:#000;"><b>TO:</b><br>{v['res_name']}</div><br><br>
+            <div style="text-align:center; text-decoration:underline; font-size: 22px; color:#000;"><b>FORMAL LETTER OF DEMAND</b></div><br>
+            <p style="color:#000;">{jargon}</p>
+            <p style="color:#000;"><b>{statement}</b></p>
+            <p style="color:#000; font-weight:bold; border: 1px solid #000; padding: 15px;">{demand}</p><br>
+            <p style="color:#000;">Sincerely,</p><div class="sig-line" style="border-top: 2px solid #000;"></div>
+            <p style="color:#000;"><b>{v['cl_name']}</b><br>Claimant</p>
+        </div>
+    """, unsafe_allow_html=True)
+    
+    full_dl = f"FROM: {v['cl_name']}\nDATE: {date_now}\nTO: {v['res_name']}\n\nRE: FORMAL LETTER OF DEMAND\n\n{jargon}\n\n{statement}\n\n{demand}\n\nSincerely,\n{v['cl_name']}"
+    st.download_button("DOWNLOAD OFFICIAL WORD DOCUMENT", full_dl, file_name="Legal_Demand.doc", key="dl_v33")
+    if st.button("INITIATE NEW CASE", key="new_v33"):
+        st.session_state.paid = False; st.session_state.ready = False; st.session_state.vault = {}; st.rerun()
 
 st.divider()
-st.caption("Shadow-Build Global Engine v1.32 | Trend Shadows Digital Agency")
+st.caption("Shadow-Build Global Engine v1.33 | Trend Shadows Digital Agency")
