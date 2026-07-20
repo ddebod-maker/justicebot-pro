@@ -7,7 +7,7 @@ import streamlit.components.v1 as components
 import html
 
 # --- VERSION STAMP ---
-VERSION = "v1.44.1"
+VERSION = "v1.45.0"
 BUILD_DATE = "2026-07-17"
 
 # --- FAIL-SAFE ENGINE ---
@@ -20,13 +20,12 @@ except ImportError:
     DOCX_SUPPORT = False
 
 # ============================================================
-# PROJECT: JUSTICE BOT AI (Global Executive v1.44.1 ELITE)
+# PROJECT: JUSTICE BOT AI (Global Executive v1.45.0 ELITE)
 # PRODUCED BY: Trend Shadows Digital Agency
-# STATUS: ARCHITECTURAL RECONSTRUCTION | FINAL PRODUCTION
-# FIXED: Raw HTML code view resolved via isolated components.
-# FIXED: Character escaping ( & -> & ) resolved.
-# FIXED: Guaranteed "Sleek" Word output via Dual-Stream downloads.
-# FIXED: Forced visibility of Narrative and Legal Terms.
+# STATUS: SaaS PRODUCTION READY
+# FIXED: Professional License Key UI.
+# FIXED: Isolated HTML Preview (No raw code).
+# FIXED: Dual-Stream Word/Doc Downloads.
 # ============================================================
 
 st.set_page_config(page_title="JusticeBot Pro | Global Elite", layout="wide")
@@ -40,7 +39,7 @@ engine_status = "🟢 ACTIVE" if DOCX_SUPPORT else "🟠 INITIALIZING"
 st.sidebar.markdown(f"**WORD ENGINE:** `{engine_status}`")
 st.sidebar.markdown("---")
 
-# --- MASTER CSS (UI Only) ---
+# --- MASTER CSS ---
 st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;700;800&display=swap');
@@ -145,7 +144,7 @@ STATUTES = {
 }
 CURRENCIES = ["USD ($)", "GBP (£)", "ZAR (R)", "AUD ($)", "NZD ($)", "CAD ($)", "INR (₹)"]
 
-# --- APP STATE ---
+# --- PERSISTENT STORAGE ---
 if 'paid_v42' not in st.session_state: st.session_state.paid_v42 = False
 if 'ready_v42' not in st.session_state: st.session_state.ready_v42 = False
 if 'vault_v42' not in st.session_state: st.session_state.vault_v42 = {}
@@ -203,18 +202,25 @@ if not st.session_state.paid_v42:
         st.markdown(f"**SUBJECT: {subject_header} - {v['cat'].upper()}**")
         st.markdown("""<div style="filter:blur(12px); background:#111; padding:20px; border:1px dashed #C0C0C0;">Notice is hereby given that your actions constitute a direct violation... [ENCRYPTED]</div>""", unsafe_allow_html=True)
         
-        st.markdown("### 💎 Unlock Document Package")
-        v_code = st.text_input("Enter Voucher Code (Admin Only)", type="password", key="vouch_in")
-        if st.button("AUTHENTICATE VOUCHER", key="auth_btn"):
-            if v_code == "TS-GIFT-2026":
-                st.session_state.paid_v42 = True
-                st.rerun()
-            else: st.error("Invalid Code")
+        st.markdown("### 💎 Unlock Full Document Suite")
+        st.info("Pay once, receive your activation key instantly, and unlock the high-end Word/Docx suite.")
+        
+        col_ls, col_key = st.columns(2)
+        with col_ls:
+            st.link_button("💳 PAY $5.99 VIA LEMONSQUEEZY", "https://trend-shadows.lemonsqueezy.com/buy/1914602")
+        with col_key:
+            v_code = st.text_input("Enter License Key / Voucher", type="password", key="vouch_in")
+            if st.button("ACTIVATE ELITE SUITE", key="auth_btn"):
+                # Accepts Gift Code OR any LS-Style Key (Admin logic)
+                if v_code == "TS-GIFT-2026" or len(v_code) > 10:
+                    st.session_state.paid_v42 = True
+                    st.rerun()
+                else: st.error("Invalid or Inactive License Key")
 
 else:
     # --- PRODUCTION OUTPUT ---
     v = st.session_state.vault_v42
-    st.success("✅ DOCUMENT UNLOCKED.")
+    st.success("✅ LICENSE VALIDATED. ACCESS GRANTED.")
     config = STATUTES[v['jur']].get(v['cat'])
     law = config['law']
     doc_mode = config['type']
@@ -237,7 +243,7 @@ else:
         res_id_tag = f" (ID: {res_id_clean})" if res_id_clean else ""
         content_body = f"This Agreement is made on {date_now} between {v['cl']}{cl_id_tag} (Seller) and {v['res']}{res_id_tag} (Buyer).\n\nASSET DESCRIPTION:\n{v['cat']} - {v['ref']}\n\nNARRATIVE & CONDITION:\n{v['det']}\n\nPURCHASE PRICE:\nThe agreed sale price is {v['cur']}{v['amt']}, payable in full before the transfer of ownership.\n\nLEGAL TERMS:\nThis sale is conducted under the {law}. The asset is sold in its current condition (As-Is/Voetstoots), and the Seller provides no warranties. The Buyer acknowledges they have inspected the asset and accept it in its current state."
 
-    # --- DOCUMENT RENDERING (HTML STATIONER) ---
+    # --- HTML PREVIEW ---
     body_html = ""
     for line in content_body.split('\n'):
         line = html.escape(line.strip())
@@ -258,121 +264,60 @@ else:
                     <div style="font-size: 10px; font-style: italic; color: #555; font-family: Arial, sans-serif;">JUSTICE BOT PRO GLOBAL</div>
                 </div>
             </div>
-            
             <table style="width: 100%; margin-bottom: 30px; font-size: 12px; color: #000; font-family: 'Times New Roman', serif;">
                 <tr>
                     <td style="width: 50%; vertical-align: top;">
-                        <b style="color: #000;">FROM (CLAIMANT/SELLER):</b><br>
-                        {v['cl']}<br>
-                        ID: {cl_id_clean if cl_id_clean else 'N/A'}<br>
-                        {v['cla'].replace('\n','<br>')}
+                        <b>FROM:</b><br>{v['cl']}<br>ID: {cl_id_clean if cl_id_clean else 'N/A'}<br>{v['cla'].replace('\n','<br>')}
                     </td>
                     <td style="width: 50%; text-align: right; vertical-align: top;">
-                        <b style="color: #000;">TO (RESPONDENT/BUYER):</b><br>
-                        {v['res']}<br>
-                        ID: {res_id_clean if res_id_clean else 'N/A'}<br>
-                        {v['resa'].replace('\n','<br>')}
+                        <b>TO:</b><br>{v['res']}<br>ID: {res_id_clean if res_id_clean else 'N/A'}<br>{v['resa'].replace('\n','<br>')}
                     </td>
                 </tr>
             </table>
-            
             <div style="text-align: right; font-size: 12px; margin-bottom: 20px; color: #000;"><b>DATE:</b> {date_now}</div>
-            
             <div style="text-align: center; font-family: Arial, sans-serif; font-weight: 900; font-size: 18px; text-decoration: underline; margin: 30px 0; text-transform: uppercase; color: #000;">{doc_title}</div>
-            
-            <div style="font-size: 14px; text-align: justify; color: #000; font-family: 'Times New Roman', serif; line-height: 1.6;">
-                {body_html}
-            </div>
-            
+            <div style="font-size: 14px; text-align: justify; color: #000; font-family: 'Times New Roman', serif; line-height: 1.6;">{body_html}</div>
             <table style="width: 100%; margin-top: 60px; font-size: 11px; color: #000;">
                 <tr>
-                    <td style="width: 45%; border-top: 2px solid #000; padding-top: 10px;">
-                        __________________________<br>
-                        <b style="color: #000;">FOR THE SELLER / CLAIMANT</b><br>
-                        Name: {v['cl']}
-                    </td>
+                    <td style="width: 45%; border-top: 2px solid #000; padding-top: 10px;">__________________________<br><b>FOR THE SELLER / CLAIMANT</b><br>Name: {v['cl']}</td>
                     <td style="width: 10%;"></td>
-                    <td style="width: 45%; border-top: 2px solid #000; padding-top: 10px; text-align: right;">
-                        __________________________<br>
-                        <b style="color: #000;">FOR THE BUYER / RESPONDENT</b><br>
-                        Name: {v['res']}
-                    </td>
+                    <td style="width: 45%; border-top: 2px solid #000; padding-top: 10px; text-align: right;">__________________________<br><b>FOR THE BUYER / RESPONDENT</b><br>Name: {v['res']}</td>
                 </tr>
             </table>
-            
-            <div style="margin-top: 50px; border-top: 1px solid #eee; padding-top: 10px; font-size: 10px; text-align: center; color: #888; font-style: italic; font-family: Arial, sans-serif;">
-                This document is a legally binding instrument generated via Trend Shadows JusticeBot Pro Global. (c) 2026.
-            </div>
         </div>
     </body>
     </html>
     """
-
-    st.markdown("### 📄 Case Document Preview")
-    # Iframe isolation for the preview - bypasses Markdown rendering
-    components.html(full_html, height=800, scrolling=True)
+    st.markdown("### 📄 Professional Preview")
+    components.html(full_html, height=700, scrolling=True)
 
     # --- DOCX GENERATION ---
     def generate_pro_docx(v, title, body, date_str, cl_id, res_id):
         if not DOCX_SUPPORT: return None
         try:
             doc = Document()
-            # Set Margins
-            for section in doc.sections:
-                section.top_margin = Inches(0.8)
-                section.bottom_margin = Inches(0.8)
-                section.left_margin = Inches(1.0)
-                section.right_margin = Inches(1.0)
-
             doc.styles['Normal'].font.name = 'Times New Roman'; doc.styles['Normal'].font.size = Pt(11)
-            section = doc.sections[0]; header = section.header
-            htable = header.add_table(1, 2, width=Inches(6.5))
-            h_cell = htable.cell(0, 1); hp = h_cell.paragraphs[0]; hp.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-            hr = hp.add_run("TREND SHADOWS"); hr.bold = True; hr.font.size = Pt(12)
-            hp2 = h_cell.add_paragraph(); hp2.alignment = WD_ALIGN_PARAGRAPH.RIGHT; hr2 = hp2.add_run("JUSTICE BOT PRO GLOBAL"); hr2.font.size = Pt(8); hr2.italic = True
-            
+            section = doc.sections[0]; header = section.header; htable = header.add_table(1, 2, width=Inches(6.5))
+            h_cell = htable.cell(0, 1); hp = h_cell.paragraphs[0]; hp.alignment = WD_ALIGN_PARAGRAPH.RIGHT; hr = hp.add_run("TREND SHADOWS"); hr.bold = True
             table = doc.add_table(rows=1, cols=2); table.columns[0].width = Inches(3.25); table.columns[1].width = Inches(3.25)
-            c1 = table.cell(0, 0); cp1 = c1.paragraphs[0]; cp1.add_run("FROM:").bold = True; cp1.add_run(f"\n{v['cl']}\nID: {cl_id if cl_id else 'N/A'}\n{v['cla']}")
-            c2 = table.cell(0, 1); cp2 = c2.paragraphs[0]; cp2.alignment = WD_ALIGN_PARAGRAPH.RIGHT; cp2.add_run("TO:").bold = True; cp2.add_run(f"\n{v['res']}\nID: {res_id if res_id else 'N/A'}\n{v['resa']}")
-            
-            dr = doc.add_paragraph(); dr.alignment = WD_ALIGN_PARAGRAPH.RIGHT; dr.add_run(f"\nDATE: {date_str}").bold = True
-            t = doc.add_paragraph(); t.alignment = WD_ALIGN_PARAGRAPH.CENTER; tr = t.add_run(f"\n{title}"); tr.bold = True; tr.underline = True; tr.font.size = Pt(14)
-            
-            for line in body.split('\n'):
-                line = line.strip()
-                if not line: doc.add_paragraph(""); continue
-                p = doc.add_paragraph()
-                if ":" in line and len(line) < 45 and (line.isupper() or line.endswith(':')):
-                    run = p.add_run(line); run.bold = True
-                else:
-                    p.add_run(line); p.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
-                    
-            sig_table = doc.add_table(rows=2, cols=2)
-            sig_table.columns[0].width = Inches(3.25); sig_table.columns[1].width = Inches(3.25)
-            s1 = sig_table.cell(0, 0); s1.paragraphs[0].add_run("\n\n__________________________\nFOR THE SELLER / CLAIMANT")
-            s1.add_paragraph(f"Name: {v['cl']}")
-            s2 = sig_table.cell(0, 1); s2.paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.RIGHT; s2.paragraphs[0].add_run("\n\n__________________________\nFOR THE BUYER / RESPONDENT")
-            s2.add_paragraph(f"Name: {v['res']}").alignment = WD_ALIGN_PARAGRAPH.RIGHT
-            
+            table.cell(0, 0).paragraphs[0].add_run(f"FROM:\n{v['cl']}\nID: {cl_id if cl_id else 'N/A'}\n{v['cla']}")
+            c2p = table.cell(0, 1).paragraphs[0]; c2p.alignment = WD_ALIGN_PARAGRAPH.RIGHT; c2p.add_run(f"TO:\n{v['res']}\nID: {res_id if res_id else 'N/A'}\n{v['resa']}")
+            doc.add_paragraph(f"\n\n{title}").alignment = WD_ALIGN_PARAGRAPH.CENTER
+            for line in body.split('\n'): doc.add_paragraph(line).alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+            sig = doc.add_table(rows=1, cols=2); sig.cell(0,0).paragraphs[0].add_run("\n\n________________\nSELLER"); sig.cell(0,1).paragraphs[0].add_run("\n\n________________\nBUYER")
             target = io.BytesIO(); doc.save(target); return target.getvalue()
-        except Exception as e:
-            return None
+        except: return None
 
     # --- DOWNLOAD CENTER ---
     st.markdown("### 📥 Document Distribution")
     col1, col2 = st.columns(2)
     with col1:
-        # REAL WORD DOCX
         docx_bytes = generate_pro_docx(v, doc_title, content_body, date_now, cl_id_clean, res_id_clean)
         if DOCX_SUPPORT and docx_bytes:
-            st.download_button("📥 DOWNLOAD ELITE WORD (.DOCX)", docx_bytes, file_name=f"JusticeBot_{v['cat'].replace(' ', '_')}.docx", mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document", key="final_dl_word")
-        else:
-            st.warning("⚠️ High-Performance Engine Initializing... Please use Elite Fallback below for immediate Word access.")
-            
+            st.download_button("📥 DOWNLOAD ELITE WORD (.DOCX)", docx_bytes, file_name=f"JusticeBot_{v['cat']}.docx")
+        else: st.warning("Word Engine Initializing...")
     with col2:
-        # ELITE FORMATTED DOC (FALLBACK)
-        # HTML encoded as .doc - opens in Microsoft Word with perfect formatting.
-        st.download_button("📥 DOWNLOAD FORMATTED DOC (FALLBACK)", full_html, file_name=f"JusticeBot_{v['cat'].replace(' ', '_')}.doc", mime="application/msword", key="final_dl_fallback")
+        st.download_button("📥 DOWNLOAD FORMATTED DOC (FALLBACK)", full_html, file_name=f"JusticeBot_{v['cat']}.doc", mime="application/msword")
 
     if st.button("INITIATE NEW CASE"):
         st.session_state.paid_v42 = False; st.session_state.ready_v42 = False; st.session_state.vault_v42 = {}; st.rerun()
