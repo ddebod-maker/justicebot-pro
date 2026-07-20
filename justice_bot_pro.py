@@ -7,7 +7,7 @@ import streamlit.components.v1 as components
 import html
 
 # --- VERSION STAMP ---
-VERSION = "v1.45.2"
+VERSION = "v1.46.0"
 BUILD_DATE = "2026-07-20"
 
 # --- FAIL-SAFE ENGINE ---
@@ -20,12 +20,13 @@ except ImportError:
     DOCX_SUPPORT = False
 
 # ============================================================
-# PROJECT: JUSTICE BOT AI (Global Executive v1.45.2 ELITE)
+# PROJECT: JUSTICE BOT AI (Global Executive v1.46.0 ELITE)
 # PRODUCED BY: Trend Shadows Digital Agency
-# STATUS: SaaS PRODUCTION READY | "BURGER-PRICE" STRATEGY
-# FIXED: Professional License Key UI ($5.99 Launch Price).
-# FIXED: Isolated HTML Preview (No raw code).
-# FIXED: Dual-Stream Word/Doc Downloads.
+# STATUS: LIVE PRODUCTION | "BURGER-PRICE" LAUNCH
+# FIXED: Final LemonSqueezy Checkout Integration ($5.99).
+# FIXED: Currency Default set to USD ($).
+# FIXED: Restored high-end table-based Word formatting.
+# FIXED: Absolute HTML Preview stability.
 # ============================================================
 
 st.set_page_config(page_title="JusticeBot Pro | Global Elite", layout="wide")
@@ -207,7 +208,7 @@ if not st.session_state.paid_v42:
         
         col_ls, col_key = st.columns(2)
         with col_ls:
-            st.link_button("💳 PAY $5.99 VIA LEMONSQUEEZY", "https://trend-shadows.lemonsqueezy.com/buy/1914602")
+            st.link_button("💳 PAY $5.99 VIA LEMONSQUEEZY", "https://trend-shadows.lemonsqueezy.com/checkout/buy/bccbd513-8d20-4156-ad75-aa4ca00fc2d8")
         with col_key:
             v_code = st.text_input("Enter License Key / Voucher", type="password", key="vouch_in")
             if st.button("ACTIVATE ELITE SUITE", key="auth_btn"):
@@ -296,17 +297,125 @@ else:
         if not DOCX_SUPPORT: return None
         try:
             doc = Document()
-            doc.styles['Normal'].font.name = 'Times New Roman'; doc.styles['Normal'].font.size = Pt(11)
-            section = doc.sections[0]; header = section.header; htable = header.add_table(1, 2, width=Inches(6.5))
-            h_cell = htable.cell(0, 1); hp = h_cell.paragraphs[0]; hp.alignment = WD_ALIGN_PARAGRAPH.RIGHT; hr = hp.add_run("TREND SHADOWS"); hr.bold = True
-            table = doc.add_table(rows=1, cols=2); table.columns[0].width = Inches(3.25); table.columns[1].width = Inches(3.25)
-            table.cell(0, 0).paragraphs[0].add_run(f"FROM:\n{v['cl']}\nID: {cl_id if cl_id else 'N/A'}\n{v['cla']}")
-            c2p = table.cell(0, 1).paragraphs[0]; c2p.alignment = WD_ALIGN_PARAGRAPH.RIGHT; c2p.add_run(f"TO:\n{v['res']}\nID: {res_id if res_id else 'N/A'}\n{v['resa']}")
-            doc.add_paragraph(f"\n\n{title}").alignment = WD_ALIGN_PARAGRAPH.CENTER
-            for line in body.split('\n'): doc.add_paragraph(line).alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
-            sig = doc.add_table(rows=1, cols=2); sig.cell(0,0).paragraphs[0].add_run("\n\n________________\nSELLER"); sig.cell(0,1).paragraphs[0].add_run("\n\n________________\nBUYER")
-            target = io.BytesIO(); doc.save(target); return target.getvalue()
-        except: return None
+            # Font setup
+            style = doc.styles['Normal']
+            style.font.name = 'Times New Roman'
+            style.font.size = Pt(11)
+
+            # 1. Branding Header
+            section = doc.sections[0]
+            header = section.header
+            htable = header.add_table(1, 2, width=Inches(6.5))
+            htable.columns[0].width = Inches(4.5)
+            htable.columns[1].width = Inches(2.0)
+            
+            h_cell = htable.cell(0, 1)
+            hp = h_cell.paragraphs[0]
+            hp.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+            hr = hp.add_run("TREND SHADOWS")
+            hr.bold = True
+            hr.font.size = Pt(10)
+            hr.font.name = 'Arial'
+            
+            hp2 = h_cell.add_paragraph()
+            hp2.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+            hr2 = hp2.add_run("JUSTICE BOT PRO GLOBAL")
+            hr2.font.size = Pt(8)
+            hr2.font.name = 'Arial'
+            hr2.italic = True
+
+            # 2. Party Table (Side-by-Side)
+            table = doc.add_table(rows=1, cols=2)
+            table.autofit = False
+            table.columns[0].width = Inches(3.25)
+            table.columns[1].width = Inches(3.25)
+            
+            # FROM
+            c1 = table.cell(0, 0)
+            cp1 = c1.paragraphs[0]
+            cp1.add_run("FROM (CLAIMANT/SELLER):").bold = True
+            cp1.add_run(f"\n{v.get('cl', '')}")
+            if cl_id: cp1.add_run(f"\nID: {cl_id}")
+            cp1.add_run(f"\n{v.get('cla', '')}")
+            
+            # TO
+            c2 = table.cell(0, 1)
+            cp2 = c2.paragraphs[0]
+            cp2.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+            cp2.add_run("TO (RESPONDENT/BUYER):").bold = True
+            cp2.add_run(f"\n{v.get('res', '')}")
+            if res_id: cp2.add_run(f"\nID: {res_id}")
+            cp2.add_run(f"\n{v.get('resa', '')}")
+
+            doc.add_paragraph("\n")
+            
+            # 3. Date
+            dr = doc.add_paragraph()
+            dr.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+            dr.add_run(f"DATE: {date_str}").bold = True
+            
+            doc.add_paragraph("\n")
+            
+            # 4. Title
+            t = doc.add_paragraph()
+            t.alignment = WD_ALIGN_PARAGRAPH.CENTER
+            tr = t.add_run(title)
+            tr.bold = True
+            tr.font.size = Pt(16)
+            tr.font.name = 'Arial'
+            
+            # Decorative Line
+            p_line = doc.add_paragraph()
+            p_line.alignment = WD_ALIGN_PARAGRAPH.CENTER
+            p_line.add_run("_______________________________________________________")
+
+            doc.add_paragraph("\n")
+            
+            # 5. Body Content
+            for line in body.split('\n'):
+                line = line.strip()
+                if not line:
+                    doc.add_paragraph("")
+                    continue
+                
+                p = doc.add_paragraph()
+                if ":" in line and len(line) < 45 and (line.isupper() or line.endswith(':')):
+                    run = p.add_run(line)
+                    run.bold = True
+                else:
+                    p.add_run(line)
+                    p.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+            
+            doc.add_paragraph("\n\n")
+            
+            # 6. Signature Block
+            sig_table = doc.add_table(rows=2, cols=2)
+            sig_table.columns[0].width = Inches(3.25)
+            sig_table.columns[1].width = Inches(3.25)
+            
+            s1 = sig_table.cell(0, 0)
+            s1.paragraphs[0].add_run("__________________________\nFOR THE SELLER / CLAIMANT")
+            s1.add_paragraph(f"Name: {v.get('cl', '')}")
+            
+            s2 = sig_table.cell(0, 1)
+            s2.paragraphs[0].alignment = WD_ALIGN_PARAGRAPH.RIGHT
+            s2.paragraphs[0].add_run("__________________________\nFOR THE BUYER / RESPONDENT")
+            s2p2 = s2.add_paragraph(f"Name: {v.get('res', '')}")
+            s2p2.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+            
+            # 7. Footer
+            footer = section.footer
+            fp = footer.paragraphs[0]
+            fp.text = "This document is a legally binding instrument generated via Trend Shadows JusticeBot Pro Global. (c) 2026."
+            fp.alignment = WD_ALIGN_PARAGRAPH.CENTER
+            fp.style.font.size = Pt(8)
+            fp.style.font.italic = True
+            
+            target = io.BytesIO()
+            doc.save(target)
+            return target.getvalue()
+        except:
+            return None
 
     # --- DOWNLOAD CENTER ---
     st.markdown("### 📥 Document Distribution")
