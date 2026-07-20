@@ -7,8 +7,8 @@ import streamlit.components.v1 as components
 import html
 
 # --- VERSION STAMP ---
-VERSION = "v1.45.0"
-BUILD_DATE = "2026-07-17"
+VERSION = "v1.45.2"
+BUILD_DATE = "2026-07-20"
 
 # --- FAIL-SAFE ENGINE ---
 try:
@@ -20,10 +20,10 @@ except ImportError:
     DOCX_SUPPORT = False
 
 # ============================================================
-# PROJECT: JUSTICE BOT AI (Global Executive v1.45.0 ELITE)
+# PROJECT: JUSTICE BOT AI (Global Executive v1.45.2 ELITE)
 # PRODUCED BY: Trend Shadows Digital Agency
-# STATUS: SaaS PRODUCTION READY
-# FIXED: Professional License Key UI.
+# STATUS: SaaS PRODUCTION READY | "BURGER-PRICE" STRATEGY
+# FIXED: Professional License Key UI ($5.99 Launch Price).
 # FIXED: Isolated HTML Preview (No raw code).
 # FIXED: Dual-Stream Word/Doc Downloads.
 # ============================================================
