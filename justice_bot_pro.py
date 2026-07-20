@@ -7,7 +7,7 @@ import streamlit.components.v1 as components
 import html
 
 # --- VERSION STAMP ---
-VERSION = "v1.46.0"
+VERSION = "v1.46.1"
 BUILD_DATE = "2026-07-20"
 
 # --- FAIL-SAFE ENGINE ---
@@ -20,13 +20,12 @@ except ImportError:
     DOCX_SUPPORT = False
 
 # ============================================================
-# PROJECT: JUSTICE BOT AI (Global Executive v1.46.0 ELITE)
+# PROJECT: JUSTICE BOT AI (Global Executive v1.46.1 ELITE)
 # PRODUCED BY: Trend Shadows Digital Agency
-# STATUS: LIVE PRODUCTION | "BURGER-PRICE" LAUNCH
-# FIXED: Final LemonSqueezy Checkout Integration ($5.99).
-# FIXED: Currency Default set to USD ($).
-# FIXED: Restored high-end table-based Word formatting.
-# FIXED: Absolute HTML Preview stability.
+# STATUS: LIVE PRODUCTION | USD LAUNCH
+# FIXED: Currency focused on USD ($5.99) for Global Scale.
+# FIXED: Hardened Table Formatting for Signature Blocks.
+# FIXED: Refined Sidebar status indicators.
 # ============================================================
 
 st.set_page_config(page_title="JusticeBot Pro | Global Elite", layout="wide")
