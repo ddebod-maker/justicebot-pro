@@ -142,7 +142,7 @@ STATUTES = {
         "General Cease & Desist": {"type": "DEMAND", "law": "IT Act 2000"}
     }
 }
-CURRENCIES = ["USD ($)", "GBP (£)", "ZAR (R)", "AUD ($)", "NZD ($)", "CAD ($)", "INR (₹)"]
+CURRENCIES = ["USD ($)", "ZAR (R)", "GBP (£)", "AUD ($)", "NZD ($)", "CAD ($)", "INR (₹)"]
 
 # --- PERSISTENT STORAGE ---
 if 'paid_v42' not in st.session_state: st.session_state.paid_v42 = False
