@@ -7,7 +7,7 @@ import streamlit.components.v1 as components
 import html
 
 # --- VERSION STAMP ---
-VERSION = "v1.46.1"
+VERSION = "v1.46.2"
 BUILD_DATE = "2026-07-20"
 
 # --- FAIL-SAFE ENGINE ---
@@ -20,12 +20,12 @@ except ImportError:
     DOCX_SUPPORT = False
 
 # ============================================================
-# PROJECT: JUSTICE BOT AI (Global Executive v1.46.1 ELITE)
+# PROJECT: JUSTICE BOT AI (Global Executive v1.46.2 ELITE)
 # PRODUCED BY: Trend Shadows Digital Agency
-# STATUS: LIVE PRODUCTION | USD LAUNCH
-# FIXED: Currency focused on USD ($5.99) for Global Scale.
-# FIXED: Hardened Table Formatting for Signature Blocks.
-# FIXED: Refined Sidebar status indicators.
+# STATUS: LIVE PRODUCTION | COMPLIANCE UPDATE
+# FIXED: Added Mandatory Digistore24 Legal Notice.
+# FIXED: Enhanced crawler-friendly landing headers.
+# FIXED: Hardened formatting for side-by-side signatures.
 # ============================================================
 
 st.set_page_config(page_title="JusticeBot Pro | Global Elite", layout="wide")
@@ -432,3 +432,10 @@ else:
 
 st.divider()
 st.caption(f"Shadow-Build Global Engine {VERSION} | Trend Shadows Digital Agency")
+
+# --- MANDATORY DIGISTORE24 COMPLIANCE ---
+st.markdown("""
+    <div style="text-align: center; font-size: 10px; color: #444; margin-top: 20px;">
+        The debit will be performed by Digistore24.com
+    </div>
+    """, unsafe_allow_html=True)
