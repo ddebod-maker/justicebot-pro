@@ -7,8 +7,8 @@ import streamlit.components.v1 as components
 import html
 
 # --- VERSION STAMP ---
-VERSION = "v1.46.2"
-BUILD_DATE = "2026-07-20"
+VERSION = "v1.46.3"
+BUILD_DATE = "2026-07-21"
 
 # --- FAIL-SAFE ENGINE ---
 try:
@@ -20,12 +20,11 @@ except ImportError:
     DOCX_SUPPORT = False
 
 # ============================================================
-# PROJECT: JUSTICE BOT AI (Global Executive v1.46.2 ELITE)
+# PROJECT: JUSTICE BOT AI (Global Executive v1.46.3 ELITE)
 # PRODUCED BY: Trend Shadows Digital Agency
-# STATUS: LIVE PRODUCTION | COMPLIANCE UPDATE
-# FIXED: Added Mandatory Digistore24 Legal Notice.
-# FIXED: Enhanced crawler-friendly landing headers.
-# FIXED: Hardened formatting for side-by-side signatures.
+# STATUS: LIVE PRODUCTION | UNIFIED PRICING
+# FIXED: Unified $7.00 price across all gates.
+# FIXED: Re-synced sidebar and internal version tags.
 # ============================================================
 
 st.set_page_config(page_title="JusticeBot Pro | Global Elite", layout="wide")
@@ -207,7 +206,7 @@ if not st.session_state.paid_v42:
         
         col_ls, col_key = st.columns(2)
         with col_ls:
-            st.link_button("💳 PAY $5.99 VIA LEMONSQUEEZY", "https://trend-shadows.lemonsqueezy.com/checkout/buy/bccbd513-8d20-4156-ad75-aa4ca00fc2d8")
+            st.link_button("💳 PAY $7.00 VIA LEMONSQUEEZY", "https://trend-shadows.lemonsqueezy.com/checkout/buy/bccbd513-8d20-4156-ad75-aa4ca00fc2d8")
         with col_key:
             v_code = st.text_input("Enter License Key / Voucher", type="password", key="vouch_in")
             if st.button("ACTIVATE ELITE SUITE", key="auth_btn"):
